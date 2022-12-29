@@ -7,7 +7,7 @@ import { MOONSCRIPT_MODE } from './moonscriptMode';
 import { getSuggestions } from './loveAutocomplete'
 import { LoveSignatureHelpProvider } from './loveFuncitonSuggestions';
 
-export const EXT_TAG = "LOVE-Autocomplete";
+export const EXT_TAG = "LOVEPotion-Autocomplete";
 
 var openurl = require('openurl').open;
 
@@ -17,7 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
-    console.log('Congratulations, your extension "love-autocomplete" is now active!');
+    console.log('Congratulations, your extension "LOVEPotion-Autocomplete" is now active!');
     // Setup our plugin to help with function signatures
     context.subscriptions.push(vscode.languages.registerSignatureHelpProvider(LUA_MODE, new LoveSignatureHelpProvider(vscode.workspace.getConfiguration('lua')['docsTool']), '(', ','));
     context.subscriptions.push(vscode.languages.registerSignatureHelpProvider(MOONSCRIPT_MODE, new LoveSignatureHelpProvider(vscode.workspace.getConfiguration('lua')['docsTool']), '(', ','));
@@ -59,7 +59,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.languages.registerCompletionItemProvider(MOONSCRIPT_MODE, completionItemProvider, '.'));
 
     // Setup the command to open the documentation for the LOVE method the cursor is currently on
-    var disposable = vscode.commands.registerCommand('LOVE.openDocumentation', () => {
+    var disposable = vscode.commands.registerCommand('LOVE2D.openDocumentation', () => {
         // The code you place here will be executed every time your command is executed
         let editor = vscode.window.activeTextEditor;
         let functionCall = getFunctionCall(editor.selection.start.line, editor.selection.start.character);
@@ -80,13 +80,12 @@ export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(disposable);
 
-    // Register command to launch love
-    var launch = vscode.commands.registerCommand('LOVE.launch', () => {
-        let terminal = vscode.window.createTerminal();
-        terminal.sendText("love --console .", true);
+    // Setup the command to open the documentation
+    var disposablePotion = vscode.commands.registerCommand('LOVEPotion.openDocumentation', () => {
+        openurl("https://lovebrew.org/#/api/love");
     });
 
-    context.subscriptions.push(launch);
+    context.subscriptions.push(disposablePotion);
 }
 
 // Get the full function call based on where the cursor is

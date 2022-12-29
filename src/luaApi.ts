@@ -136,6 +136,11 @@ export let api = {
                         "type": "boolean"
                     }, {
                         "default": "true",
+                        "description": "Enable the font module.",
+                        "name": "font",
+                        "type": "boolean"
+                    }, {
+                        "default": "true",
                         "description": "Enable the graphics module.",
                         "name": "graphics",
                         "type": "boolean"
@@ -211,19 +216,16 @@ export let api = {
             }]
         }]
     }, {
-        "description": "Callback function triggered when a directory is dragged and dropped onto the window.",
-        "name": "directorydropped",
-        "variants": [{
+        "description": "Callback function used to draw on the screen every frame.",
+        "name": "draw",
+        "variants": [{}, {
+            "description": "Nintendo 3DS only. It is set to either \"left\", \"right\", or \"bottom\".",
             "arguments": [{
-                "description": "The full platform-dependent path to the directory. It can be used as an argument to love.filesystem.mount, in order to gain read access to the directory with love.filesystem.",
-                "name": "path",
+                "description": "The name of the screen being rendered to.",
+                "name": "screen",
                 "type": "string"
             }]
         }]
-    }, {
-        "description": "Callback function used to draw on the screen every frame.",
-        "name": "draw",
-        "variants": [[]]
     }, {
         "description": "The error handler, used to display error messages.",
         "name": "errhand",
@@ -235,13 +237,13 @@ export let api = {
             }]
         }]
     }, {
-        "description": "Callback function triggered when a file is dragged and dropped onto the window.",
-        "name": "filedropped",
+        "description": "The error handler, used to display error messages.",
+        "name": "errorhandler",
         "variants": [{
             "arguments": [{
-                "description": "The unopened File object representing the file that was dropped.",
-                "name": "file",
-                "type": "File"
+                "description": "The error message.",
+                "name": "msg",
+                "type": "string"
             }]
         }]
     }, {
@@ -297,128 +299,6 @@ export let api = {
             }]
         }]
     }, {
-        "description": "Called when a Joystick is connected.\n\nThis callback is also triggered after love.load for every Joystick which was already connected when the game started up.",
-        "name": "joystickadded",
-        "variants": [{
-            "arguments": [{
-                "description": "The newly connected Joystick object.",
-                "name": "joystick",
-                "type": "Joystick"
-            }]
-        }]
-    }, {
-        "description": "Called when a joystick axis moves.",
-        "name": "joystickaxis",
-        "variants": [{
-            "arguments": [{
-                "description": "The joystick object.",
-                "name": "joystick",
-                "type": "Joystick"
-            }, {
-                "description": "The axis number.",
-                "name": "axis",
-                "type": "number"
-            }, {
-                "description": "The new axis value.",
-                "name": "value",
-                "type": "number"
-            }]
-        }]
-    }, {
-        "description": "Called when a joystick hat direction changes.",
-        "name": "joystickhat",
-        "variants": [{
-            "arguments": [{
-                "description": "The joystick object.",
-                "name": "joystick",
-                "type": "Joystick"
-            }, {
-                "description": "The hat number.",
-                "name": "hat",
-                "type": "number"
-            }, {
-                "description": "The new hat direction.",
-                "name": "direction",
-                "type": "JoystickHat"
-            }]
-        }]
-    }, {
-        "description": "Called when a joystick button is pressed.",
-        "name": "joystickpressed",
-        "variants": [{
-            "arguments": [{
-                "description": "The joystick number.",
-                "name": "joystick",
-                "type": "number"
-            }, {
-                "description": "The button number.",
-                "name": "button",
-                "type": "number"
-            }]
-        }]
-    }, {
-        "description": "Called when a joystick button is released.",
-        "name": "joystickreleased",
-        "variants": [{
-            "arguments": [{
-                "description": "The joystick number.",
-                "name": "joystick",
-                "type": "number"
-            }, {
-                "description": "The button number.",
-                "name": "button",
-                "type": "number"
-            }]
-        }]
-    }, {
-        "description": "Called when a Joystick is disconnected.",
-        "name": "joystickremoved",
-        "variants": [{
-            "arguments": [{
-                "description": "The now-disconnected Joystick object.",
-                "name": "joystick",
-                "type": "Joystick"
-            }]
-        }]
-    }, {
-        "description": "Callback function triggered when a key is pressed.",
-        "name": "keypressed",
-        "variants": [{
-            "arguments": [{
-                "description": "Character of the pressed key.",
-                "name": "key",
-                "type": "KeyConstant"
-            }, {
-                "description": "The scancode representing the pressed key.",
-                "name": "scancode",
-                "type": "Scancode"
-            }, {
-                "description": "Whether this keypress event is a repeat. The delay between key repeats depends on the user's system settings.",
-                "name": "isrepeat",
-                "type": "boolean"
-            }]
-        }]
-    }, {
-        "description": "Callback function triggered when a keyboard key is released.",
-        "name": "keyreleased",
-        "variants": [{
-            "arguments": [{
-                "description": "Character of the released key.",
-                "name": "key",
-                "type": "KeyConstant"
-            }]
-        }, {
-            "arguments": [{
-                "description": "Character of the released key.",
-                "name": "key",
-                "type": "KeyConstant"
-            }, {
-                "description": "The scancode representing the released key.",
-                "name": "scancode",
-                "type": "Scancode"
-            }]
-        }]
-    }, {
         "description": "This function is called exactly once at the beginning of the game.",
         "name": "load",
         "variants": [{
@@ -429,90 +309,6 @@ export let api = {
             }]
         }]
     }, {
-        "description": "Callback function triggered when the system is running out of memory on mobile devices.\n\n Mobile operating systems may forcefully kill the game if it uses too much memory, so any non-critical resource should be removed if possible (by setting all variables referencing the resources to nil, and calling collectgarbage()), when this event is triggered. Sounds and images in particular tend to use the most memory.",
-        "name": "lowmemory",
-        "variants": [[]]
-    }, {
-        "description": "Callback function triggered when window receives or loses mouse focus.",
-        "name": "mousefocus",
-        "variants": [{
-            "arguments": [{
-                "description": "Wether the window has mouse focus or not.",
-                "name": "focus",
-                "type": "boolean"
-            }]
-        }]
-    }, {
-        "description": "Callback function triggered when the mouse is moved.",
-        "name": "mousemoved",
-        "variants": [{
-            "arguments": [{
-                "description": "The mouse position on the x-axis.",
-                "name": "x",
-                "type": "number"
-            }, {
-                "description": "The mouse position on the y-axis.",
-                "name": "y",
-                "type": "number"
-            }, {
-                "description": "The amount moved along the x-axis since the last time love.mousemoved was called.",
-                "name": "dx",
-                "type": "number"
-            }, {
-                "description": "The amount moved along the y-axis since the last time love.mousemoved was called.",
-                "name": "dy",
-                "type": "number"
-            }, {
-                "description": "True if the mouse button press originated from a touchscreen touch-press.",
-                "name": "istouch",
-                "type": "boolean"
-            }]
-        }]
-    }, {
-        "description": "Callback function triggered when a mouse button is pressed.",
-        "name": "mousepressed",
-        "variants": [{
-            "arguments": [{
-                "description": "Mouse x position, in pixels.",
-                "name": "x",
-                "type": "number"
-            }, {
-                "description": "Mouse y position, in pixels.",
-                "name": "y",
-                "type": "number"
-            }, {
-                "description": "The button index that was pressed. 1 is the primary mouse button, 2 is the secondary mouse button and 3 is the middle button. Further buttons are mouse dependent",
-                "name": "button",
-                "type": "number"
-            }, {
-                "description": "True if the mouse button press originated from a touchscreen touch-press.",
-                "name": "isTouch",
-                "type": "boolean"
-            }]
-        }]
-    }, {
-        "description": "Callback function triggered when a mouse button is released.",
-        "name": "mousereleased",
-        "variants": [{
-            "arguments": [{
-                "description": "Mouse x position, in pixels.",
-                "name": "x",
-                "type": "number"
-            }, {
-                "description": "Mouse y position, in pixels.",
-                "name": "y",
-                "type": "number"
-            }, {
-                "description": "The button index that was released. 1 is the primary mouse button, 2 is the secondary mouse button and 3 is the middle button. Further buttons are mouse dependent.",
-                "name": "button",
-                "type": "number"
-            }, {
-                "description": "True if the mouse button press originated from a touchscreen touch-release.",
-                "name": "isTouch",
-                "type": "boolean"
-            }]
-        }]
-    }, {
         "description": "Callback function triggered when the game is closed.",
         "name": "quit",
         "variants": [{
@@ -520,42 +316,6 @@ export let api = {
                 "description": "Abort quitting. If true, do not close the game.",
                 "name": "r",
                 "type": "boolean"
-            }]
-        }]
-    }, {
-        "description": "Called when the window is resized, for example if the user resizes the window, or if love.window.setMode is called with an unsupported width or height in fullscreen and the window chooses the closest appropriate size.\n\nCalls to love.window.setMode will only trigger this event if the width or height of the window after the call doesn't match the requested width and height. This can happen if a fullscreen mode is requested which doesn't match any supported mode, or if the fullscreen type is 'desktop' and the requested width or height don't match the desktop resolution.",
-        "name": "resize",
-        "variants": [{
-            "arguments": [{
-                "description": "The new width.",
-                "name": "w",
-                "type": "number"
-            }, {
-                "description": "The new height.",
-                "name": "h",
-                "type": "number"
-            }]
-        }]
-    }, {
-        "description": "The main function, containing the main loop. A sensible default is used when left out.",
-        "name": "run",
-        "variants": [[]]
-    }, {
-        "description": "Called when the candidate text for an IME (Input Method Editor) has changed.\n\nThe candidate text is not the final text that the user will eventually choose. Use love.textinput for that.",
-        "name": "textedited",
-        "variants": [{
-            "arguments": [{
-                "description": "The UTF-8 encoded unicode candidate text.",
-                "name": "text",
-                "type": "string"
-            }, {
-                "description": "The start cursor of the selected candidate text.",
-                "name": "start",
-                "type": "number"
-            }, {
-                "description": "The length of the selected candidate text. May be 0.",
-                "name": "length",
-                "type": "number"
             }]
         }]
     }, {
@@ -682,30 +442,6 @@ export let api = {
                 "type": "number"
             }]
         }]
-    }, {
-        "description": "Callback function triggered when window is minimized/hidden or unminimized by the user.",
-        "name": "visible",
-        "variants": [{
-            "arguments": [{
-                "description": "True if the window is visible, false if it isn't.",
-                "name": "visible",
-                "type": "boolean"
-            }]
-        }]
-    }, {
-        "description": "Callback function triggered when the mouse wheel is moved.",
-        "name": "wheelmoved",
-        "variants": [{
-            "arguments": [{
-                "description": "Amount of horizontal mouse wheel movement. Positive values indicate movement to the right.",
-                "name": "x",
-                "type": "number"
-            }, {
-                "description": "Amount of vertical mouse wheel movement. Positive values indicate upward movement.",
-                "name": "y",
-                "type": "number"
-            }]
-        }]
     }],
     "functions": [{
         "description": "Gets the current running version of LÖVE.",
@@ -779,98 +515,12 @@ export let api = {
             "name": "TimeUnit"
         }],
         "functions": [{
-            "description": "Returns the distance attenuation model.",
-            "name": "getDistanceModel",
+            "description": "Gets the current number of simultaneously playing sources.",
+            "name": "getActiveSourceCount",
             "variants": [{
                 "returns": [{
-                    "description": "The current distance model. The default is 'inverseclamped'.",
-                    "name": "model",
-                    "type": "DistanceModel"
-                }]
-            }]
-        }, {
-            "description": "Gets the current global scale factor for velocity-based doppler effects.",
-            "name": "getDopplerScale",
-            "variants": [{
-                "returns": [{
-                    "description": "The current doppler scale factor.",
-                    "name": "scale",
-                    "type": "number"
-                }]
-            }]
-        }, {
-            "description": "Returns the number of sources which are currently playing or paused.",
-            "name": "getSourceCount",
-            "variants": [{
-                "returns": [{
-                    "description": "The number of sources which are currently playing or paused.",
-                    "name": "numSources",
-                    "type": "number"
-                }]
-            }]
-        }, {
-            "description": "Returns the orientation of the listener.",
-            "name": "getOrientation",
-            "variants": [{
-                "returns": [{
-                    "description": "The X component of the forward vector of the listener orientation.",
-                    "name": "fx",
-                    "type": "number"
-                }, {
-                    "description": "The Y component of the forward vector of the listener orientation.",
-                    "name": "fy",
-                    "type": "number"
-                }, {
-                    "description": "The Z component of the forward vector of the listener orientation.",
-                    "name": "fz",
-                    "type": "number"
-                }, {
-                    "description": "The X component of the up vector of the listener orientation.",
-                    "name": "ux",
-                    "type": "number"
-                }, {
-                    "description": "The Y component of the up vector of the listener orientation.",
-                    "name": "uy",
-                    "type": "number"
-                }, {
-                    "description": "The Z component of the up vector of the listener orientation.",
-                    "name": "uz",
-                    "type": "number"
-                }]
-            }]
-        }, {
-            "description": "Returns the position of the listener.",
-            "name": "getPosition",
-            "variants": [{
-                "returns": [{
-                    "description": "The X position of the listener.",
-                    "name": "x",
-                    "type": "number"
-                }, {
-                    "description": "The Y position of the listener.",
-                    "name": "y",
-                    "type": "number"
-                }, {
-                    "description": "The Z position of the listener.",
-                    "name": "z",
-                    "type": "number"
-                }]
-            }]
-        }, {
-            "description": "Returns the velocity of the listener.",
-            "name": "getVelocity",
-            "variants": [{
-                "returns": [{
-                    "description": "The X velocity of the listener.",
-                    "name": "x",
-                    "type": "number"
-                }, {
-                    "description": "The Y velocity of the listener.",
-                    "name": "y",
-                    "type": "number"
-                }, {
-                    "description": "The Z velocity of the listener.",
-                    "name": "z",
+                    "description": "The current number of simultaneously playing sources.",
+                    "name": "count",
                     "type": "number"
                 }]
             }]
@@ -982,112 +632,6 @@ export let api = {
                 }]
             }]
         }, {
-            "description": "Resumes all audio",
-            "name": "resume",
-            "variants": [[], {
-                "arguments": [{
-                    "description": "The source on which to resume the playback.",
-                    "name": "source",
-                    "type": "Source"
-                }]
-            }]
-        }, {
-            "description": "Rewinds all playing audio.",
-            "name": "rewind",
-            "variants": [[], {
-                "arguments": [{
-                    "description": "The source to rewind.",
-                    "name": "source",
-                    "type": "Source"
-                }]
-            }]
-        }, {
-            "description": "Sets the distance attenuation model.",
-            "name": "setDistanceModel",
-            "variants": [{
-                "arguments": [{
-                    "description": "The new distance model.",
-                    "name": "model",
-                    "type": "DistanceModel"
-                }]
-            }]
-        }, {
-            "description": "Sets a global scale factor for velocity-based doppler effects. The default scale value is 1.",
-            "name": "setDopplerScale",
-            "variants": [{
-                "arguments": [{
-                    "description": "The new doppler scale factor. The scale must be greater than 0.",
-                    "name": "scale",
-                    "type": "number"
-                }]
-            }]
-        }, {
-            "description": "Sets the orientation of the listener.",
-            "name": "setOrientation",
-            "variants": [{
-                "arguments": [{
-                    "description": "The X component of the forward vector of the listener orientation.",
-                    "name": "fx",
-                    "type": "number"
-                }, {
-                    "description": "The Y component of the forward vector of the listener orientation.",
-                    "name": "fy",
-                    "type": "number"
-                }, {
-                    "description": "The Z component of the forward vector of the listener orientation.",
-                    "name": "fz",
-                    "type": "number"
-                }, {
-                    "description": "The X component of the up vector of the listener orientation.",
-                    "name": "ux",
-                    "type": "number"
-                }, {
-                    "description": "The Y component of the up vector of the listener orientation.",
-                    "name": "uy",
-                    "type": "number"
-                }, {
-                    "description": "The Z component of the up vector of the listener orientation.",
-                    "name": "uz",
-                    "type": "number"
-                }]
-            }]
-        }, {
-            "description": "Sets the position of the listener, which determines how sounds play.",
-            "name": "setPosition",
-            "variants": [{
-                "arguments": [{
-                    "description": "The X position of the listener.",
-                    "name": "x",
-                    "type": "number"
-                }, {
-                    "description": "The Y position of the listener.",
-                    "name": "y",
-                    "type": "number"
-                }, {
-                    "description": "The Z position of the listener.",
-                    "name": "z",
-                    "type": "number"
-                }]
-            }]
-        }, {
-            "description": "Sets the velocity of the listener.",
-            "name": "setVelocity",
-            "variants": [{
-                "arguments": [{
-                    "description": "The X velocity of the listener.",
-                    "name": "x",
-                    "type": "number"
-                }, {
-                    "description": "The Y velocity of the listener.",
-                    "name": "y",
-                    "type": "number"
-                }, {
-                    "description": "The Z velocity of the listener.",
-                    "name": "z",
-                    "type": "number"
-                }]
-            }]
-        }, {
             "description": "Sets the master volume.",
             "name": "setVolume",
             "variants": [{
@@ -1126,62 +670,12 @@ export let api = {
                     }]
                 }]
             }, {
-                "description": "Returns the reference and maximum distance of the source.",
-                "name": "getAttenuationDistances",
-                "variants": [{
-                    "returns": [{
-                        "description": "The reference distance.",
-                        "name": "ref",
-                        "type": "number"
-                    }, {
-                        "description": "The maximum distance.",
-                        "name": "max",
-                        "type": "number"
-                    }]
-                }]
-            }, {
                 "description": "Gets the number of channels in the Source. Only 1-channel (mono) Sources can use directional and positional effects.",
-                "name": "getChannels",
+                "name": "getChannelCount",
                 "variants": [{
                     "returns": [{
                         "description": "1 for mono, 2 for stereo.",
                         "name": "channels",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Gets the Source's directional volume cones. Together with Source:setDirection, the cone angles allow for the Source's volume to vary depending on its direction.",
-                "name": "getCone",
-                "variants": [{
-                    "returns": [{
-                        "description": "The inner angle from the Source's direction, in radians. The Source will play at normal volume if the listener is inside the cone defined by this angle.",
-                        "name": "innerAngle",
-                        "type": "number"
-                    }, {
-                        "description": "The outer angle from the Source's direction, in radians. The Source will play at a volume between the normal and outer volumes, if the listener is in between the cones defined by the inner and outer angles.",
-                        "name": "outerAngle",
-                        "type": "number"
-                    }, {
-                        "description": "The Source's volume when the listener is outside both the inner and outer cone angles.",
-                        "name": "outerVolume",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Gets the direction of the Source.",
-                "name": "getDirection",
-                "variants": [{
-                    "returns": [{
-                        "description": "The X part of the direction vector.",
-                        "name": "x",
-                        "type": "number"
-                    }, {
-                        "description": "The Y part of the direction vector.",
-                        "name": "y",
-                        "type": "number"
-                    }, {
-                        "description": "The Z part of the direction vector.",
-                        "name": "z",
                         "type": "number"
                     }]
                 }]
@@ -1202,40 +696,12 @@ export let api = {
                     }]
                 }]
             }, {
-                "description": "Gets the current pitch of the Source.",
-                "name": "getPitch",
+                "description": "Get the number of free buffers on the Source.",
+                "name": "getFreeBufferCount",
                 "variants": [{
                     "returns": [{
-                        "description": "The pitch, where 1.0 is normal.",
-                        "name": "pitch",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Gets the position of the Source.",
-                "name": "getPosition",
-                "variants": [{
-                    "returns": [{
-                        "description": "The X position of the Source.",
-                        "name": "x",
-                        "type": "number"
-                    }, {
-                        "description": "The Y position of the Source.",
-                        "name": "y",
-                        "type": "number"
-                    }, {
-                        "description": "The Z position of the Source.",
-                        "name": "z",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Returns the rolloff factor of the source.",
-                "name": "getRolloff",
-                "variants": [{
-                    "returns": [{
-                        "description": "The rolloff factor.",
-                        "name": "rolloff",
+                        "description": "The number of free buffers on the Source.",
+                        "name": "count",
                         "type": "number"
                     }]
                 }]
@@ -1247,24 +713,6 @@ export let api = {
                         "description": "The type of the source.",
                         "name": "sourcetype",
                         "type": "SourceType"
-                    }]
-                }]
-            }, {
-                "description": "Gets the velocity of the Source.",
-                "name": "getVelocity",
-                "variants": [{
-                    "returns": [{
-                        "description": "The X part of the velocity vector.",
-                        "name": "x",
-                        "type": "number"
-                    }, {
-                        "description": "The Y part of the velocity vector.",
-                        "name": "y",
-                        "type": "number"
-                    }, {
-                        "description": "The Z part of the velocity vector.",
-                        "name": "z",
-                        "type": "number"
                     }]
                 }]
             }, {
@@ -1302,32 +750,12 @@ export let api = {
                     }]
                 }]
             }, {
-                "description": "Returns whether the Source is paused.",
-                "name": "isPaused",
-                "variants": [{
-                    "returns": [{
-                        "description": "True if the Source is paused, false otherwise.",
-                        "name": "paused",
-                        "type": "boolean"
-                    }]
-                }]
-            }, {
                 "description": "Returns whether the Source is playing.",
                 "name": "isPlaying",
                 "variants": [{
                     "returns": [{
                         "description": "True if the Source is playing, false otherwise.",
                         "name": "playing",
-                        "type": "boolean"
-                    }]
-                }]
-            }, {
-                "description": "Returns whether the Source is stopped.",
-                "name": "isStopped",
-                "variants": [{
-                    "returns": [{
-                        "description": "True if the Source is stopped, false otherwise.",
-                        "name": "stopped",
                         "type": "boolean"
                     }]
                 }]
@@ -1346,14 +774,6 @@ export let api = {
                     }]
                 }]
             }, {
-                "description": "Resumes a paused Source.",
-                "name": "resume",
-                "variants": [[]]
-            }, {
-                "description": "Rewinds a Source.",
-                "name": "rewind",
-                "variants": [[]]
-            }, {
                 "description": "Sets the playing position of the Source.",
                 "name": "seek",
                 "variants": [{
@@ -1369,57 +789,6 @@ export let api = {
                     }]
                 }]
             }, {
-                "description": "Sets the direction vector of the Source. A zero vector makes the source non-directional.",
-                "name": "setDirection",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The X part of the direction vector.",
-                        "name": "x",
-                        "type": "number"
-                    }, {
-                        "description": "The Y part of the direction vector.",
-                        "name": "y",
-                        "type": "number"
-                    }, {
-                        "description": "The Z part of the direction vector.",
-                        "name": "z",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Sets the reference and maximum distance of the source.",
-                "name": "setAttenuationDistances",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The new reference distance.",
-                        "name": "ref",
-                        "type": "number"
-                    }, {
-                        "description": "The new maximum distance.",
-                        "name": "max",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Sets the Source's directional volume cones. Together with Source:setDirection, the cone angles allow for the Source's volume to vary depending on its direction.",
-                "name": "setCone",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The inner angle from the Source's direction, in radians. The Source will play at normal volume if the listener is inside the cone defined by this angle.",
-                        "name": "innerAngle",
-                        "type": "number"
-                    }, {
-                        "description": "The outer angle from the Source's direction, in radians. The Source will play at a volume between the normal and outer volumes, if the listener is in between the cones defined by the inner and outer angles.",
-                        "name": "outerAngle",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "The Source's volume when the listener is outside both the inner and outer cone angles.",
-                        "name": "outerVolume",
-                        "type": "number"
-                    }]
-                }]
-            }, {
                 "description": "Sets whether the Source should loop.",
                 "name": "setLooping",
                 "variants": [{
@@ -1427,62 +796,6 @@ export let api = {
                         "description": "True if the source should loop, false otherwise.",
                         "name": "loop",
                         "type": "boolean"
-                    }]
-                }]
-            }, {
-                "description": "Sets the pitch of the Source.",
-                "name": "setPitch",
-                "variants": [{
-                    "arguments": [{
-                        "description": "Calculated with regard to 1 being the base pitch. Each reduction by 50 percent equals a pitch shift of -12 semitones (one octave reduction). Each doubling equals a pitch shift of 12 semitones (one octave increase). Zero is not a legal value.",
-                        "name": "pitch",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Sets the position of the Source.",
-                "name": "setPosition",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The X position of the Source.",
-                        "name": "x",
-                        "type": "number"
-                    }, {
-                        "description": "The Y position of the Source.",
-                        "name": "y",
-                        "type": "number"
-                    }, {
-                        "description": "The Z position of the Source.",
-                        "name": "z",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Sets the rolloff factor which affects the strength of the used distance attenuation.\n\nExtended information and detailed formulas can be found in the chapter \"3.4. Attenuation By Distance\" of OpenAL 1.1 specification.",
-                "name": "setRolloff",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The new rolloff factor.",
-                        "name": "rolloff",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Sets the velocity of the Source.\n\nThis does not change the position of the Source, but is used to calculate the doppler effect.",
-                "name": "setVelocity",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The X part of the velocity vector.",
-                        "name": "x",
-                        "type": "number"
-                    }, {
-                        "description": "The Y part of the velocity vector.",
-                        "name": "y",
-                        "type": "number"
-                    }, {
-                        "description": "The Z part of the velocity vector.",
-                        "name": "z",
-                        "type": "number"
                     }]
                 }]
             }, {
@@ -1746,16 +1059,6 @@ export let api = {
                 }]
             }]
         }, {
-            "description": "Gets whether love.filesystem follows symbolic links.",
-            "name": "areSymlinksEnabled",
-            "variants": [{
-                "returns": [{
-                    "description": "Whether love.filesystem follows symbolic links.",
-                    "name": "enable",
-                    "type": "boolean"
-                }]
-            }]
-        }, {
             "description": "Creates a directory.",
             "name": "createDirectory",
             "variants": [{
@@ -1768,31 +1071,6 @@ export let api = {
                     "description": "True if the directory was created, false if not.",
                     "name": "success",
                     "type": "boolean"
-                }]
-            }]
-        }, {
-            "description": "Check whether a file or directory exists.",
-            "name": "exists",
-            "variants": [{
-                "arguments": [{
-                    "description": "The path to a potential file or directory.",
-                    "name": "filename",
-                    "type": "string"
-                }],
-                "returns": [{
-                    "description": "True if there is a file or directory with the specified name. False otherwise.",
-                    "name": "exists",
-                    "type": "boolean"
-                }]
-            }]
-        }, {
-            "description": "Returns the application data directory (could be the same as getUserDirectory)",
-            "name": "getAppdataDirectory",
-            "variants": [{
-                "returns": [{
-                    "description": "The path of the application data directory.",
-                    "name": "path",
-                    "type": "string"
                 }]
             }]
         }, {
@@ -1817,25 +1095,6 @@ export let api = {
                 "arguments": [{
                     "description": "The identity that is used as write directory.",
                     "name": "name",
-                    "type": "string"
-                }]
-            }]
-        }, {
-            "description": "Gets the last modification time of a file.",
-            "name": "getLastModified",
-            "variants": [{
-                "arguments": [{
-                    "description": "The path and name to a file.",
-                    "name": "filename",
-                    "type": "string"
-                }],
-                "returns": [{
-                    "description": "The last modification time in seconds since the unix epoch or nil on failure.",
-                    "name": "modtime",
-                    "type": "number"
-                }, {
-                    "description": "The error message on failure.",
-                    "name": "errormsg",
                     "type": "string"
                 }]
             }]
@@ -1871,25 +1130,6 @@ export let api = {
                 "returns": [{
                     "description": "The absolute path to the save directory.",
                     "name": "path",
-                    "type": "string"
-                }]
-            }]
-        }, {
-            "description": "Gets the size in bytes of a file.",
-            "name": "getSize",
-            "variants": [{
-                "arguments": [{
-                    "description": "The path and name to a file.",
-                    "name": "filename",
-                    "type": "string"
-                }],
-                "returns": [{
-                    "description": "The size in bytes of the file, or nil on failure.",
-                    "name": "size",
-                    "type": "number"
-                }, {
-                    "description": "The error message on failure.",
-                    "name": "errormsg",
                     "type": "string"
                 }]
             }]
@@ -1944,57 +1184,12 @@ export let api = {
                 }]
             }]
         }, {
-            "description": "Check whether something is a directory.",
-            "name": "isDirectory",
-            "variants": [{
-                "arguments": [{
-                    "description": "The path to a potential directory.",
-                    "name": "path",
-                    "type": "string"
-                }],
-                "returns": [{
-                    "description": "True if there is a directory with the specified name. False otherwise.",
-                    "name": "isDir",
-                    "type": "boolean"
-                }]
-            }]
-        }, {
-            "description": "Check whether something is a file.",
-            "name": "isFile",
-            "variants": [{
-                "arguments": [{
-                    "description": "The path to a potential file.",
-                    "name": "path",
-                    "type": "string"
-                }],
-                "returns": [{
-                    "description": "True if there is a file with the specified name. False otherwise.",
-                    "name": "isFile",
-                    "type": "boolean"
-                }]
-            }]
-        }, {
             "description": "Gets whether the game is in fused mode or not.\n\nIf a game is in fused mode, its save directory will be directly in the Appdata directory instead of Appdata/LOVE/. The game will also be able to load C Lua dynamic libraries which are located in the save directory.\n\nA game is in fused mode if the source .love has been fused to the executable (see Game Distribution), or if \"--fused\" has been given as a command-line argument when starting the game.",
             "name": "isFused",
             "variants": [{
                 "returns": [{
                     "description": "True if the game is in fused mode, false otherwise.",
                     "name": "fused",
-                    "type": "boolean"
-                }]
-            }]
-        }, {
-            "description": "Gets whether a filepath is actually a symbolic link.\n\nIf symbolic links are not enabled (via love.filesystem.setSymlinksEnabled), this function will always return false.",
-            "name": "isSymlink",
-            "variants": [{
-                "arguments": [{
-                    "description": "The file or directory path to check.",
-                    "name": "path",
-                    "type": "string"
-                }],
-                "returns": [{
-                    "description": "True if the path is a symbolic link, false otherwise.",
-                    "name": "symlink",
                     "type": "boolean"
                 }]
             }]
@@ -2208,16 +1403,6 @@ export let api = {
                     "description": "Absolute path to the game's source folder.",
                     "name": "path",
                     "type": "string"
-                }]
-            }]
-        }, {
-            "description": "Sets whether love.filesystem follows symbolic links. It is enabled by default in version 0.10.0 and newer, and disabled by default in 0.9.2.",
-            "name": "setSymlinksEnabled",
-            "variants": [{
-                "arguments": [{
-                    "description": "Whether love.filesystem should follow symbolic links.",
-                    "name": "enable",
-                    "type": "boolean"
                 }]
             }]
         }, {
@@ -2436,6 +1621,16 @@ export let api = {
                     }]
                 }]
             }, {
+                "description": "Returns the position in the file.",
+                "name": "tell",
+                "variants": [{
+                    "returns": [{
+                        "description": "The position in the file.",
+                        "name": "position",
+                        "type": "number"
+                    }]
+                }]
+            }, {
                 "description": "Write data to a file.",
                 "name": "write",
                 "variants": [{
@@ -2462,6 +1657,16 @@ export let api = {
             "constructors": ["newFileData"],
             "description": "Data representing the contents of a file.",
             "functions": [{
+                "description": "Creates a new copy of the Data object.",
+                "name": "clone",
+                "variants": [{
+                    "returns": [{
+                        "description": "A new copy of the Data object.",
+                        "name": "copy",
+                        "type": "FileData"
+                    }]
+                }]
+            }, {
                 "description": "Gets the extension of the FileData.",
                 "name": "getExtension",
                 "variants": [{
@@ -2483,6 +1688,525 @@ export let api = {
                 }]
             }],
             "name": "FileData",
+            "supertypes": ["Data", "Object"]
+        }]
+    }, {
+        "description": "Allows you to work with fonts.",
+        "enums": [{
+            "constants": [{
+                "description": "Default hinting. Should be preferred for typical antialiased fonts.",
+                "name": "normal"
+            }, {
+                "description": "Results in fuzzier text but can sometimes preserve the original glyph shapes of the text better than normal hinting.",
+                "name": "light"
+            }, {
+                "description": "Results in aliased / unsmoothed text with either full opacity or completely transparent pixels. Should be used when antialiasing is not desired for the font.",
+                "name": "mono"
+            }, {
+                "description": "Disables hinting for the font. Results in fuzzier text.",
+                "name": "none"
+            }],
+            "description": "True Type hinting mode.",
+            "name": "HintingMode"
+        }],
+        "functions": [{
+            "description": "Creates a new Rasterizer.",
+            "name": "newRasterizer",
+            "variants": [{
+                "arguments": [{
+                    "description": "Path to font file.",
+                    "name": "fileName",
+                    "type": "string"
+                }],
+                "returns": [{
+                    "description": "The rasterizer.",
+                    "name": "rasterizer",
+                    "type": "Rasterizer"
+                }]
+            }, {
+                "arguments": [{
+                    "description": "File data containing font.",
+                    "name": "fileData",
+                    "type": "FileData"
+                }],
+                "returns": [{
+                    "description": "The rasterizer.",
+                    "name": "rasterizer",
+                    "type": "Rasterizer"
+                }]
+            }, {
+                "arguments": [{
+                    "description": "The font size.",
+                    "name": "size",
+                    "type": "number"
+                }, {
+                    "default": "normal",
+                    "description": "True Type hinting mode.",
+                    "name": "hinting",
+                    "type": "HintingMode"
+                }, {
+                    "default": "2",
+                    "description": "The font DPI scale.",
+                    "name": "dpiscale",
+                    "type": "number"
+                }],
+                "returns": [{
+                    "description": "The rasterizer.",
+                    "name": "rasterizer",
+                    "type": "Rasterizer"
+                }]
+            }, {
+                "arguments": [{
+                    "description": "Path to font file.",
+                    "name": "fileName",
+                    "type": "string"
+                }, {
+                    "description": "The font size.",
+                    "name": "size",
+                    "type": "number"
+                }, {
+                    "default": "normal",
+                    "description": "True Type hinting mode.",
+                    "name": "hinting",
+                    "type": "HintingMode"
+                }, {
+                    "default": "2",
+                    "description": "The font DPI scale.",
+                    "name": "dpiscale",
+                    "type": "number"
+                }],
+                "returns": [{
+                    "description": "The rasterizer.",
+                    "name": "rasterizer",
+                    "type": "Rasterizer"
+                }]
+            }, {
+                "arguments": [{
+                    "description": "File data containing font.",
+                    "name": "fileData",
+                    "type": "FileData"
+                }, {
+                    "default": "12",
+                    "description": "The font size.",
+                    "name": "size",
+                    "type": "number"
+                }, {
+                    "default": "normal",
+                    "description": "True Type hinting mode.",
+                    "name": "hinting",
+                    "type": "HintingMode"
+                }, {
+                    "default": "2",
+                    "description": "The font DPI scale.",
+                    "name": "dpiscale",
+                    "type": "number"
+                }],
+                "returns": [{
+                    "description": "The rasterizer.",
+                    "name": "rasterizer",
+                    "type": "Rasterizer"
+                }]
+            }]
+        }, {
+            "description": "Creates a new TrueType Rasterizer. Nintendo Switch only",
+            "name": "newTrueTypeRasterizer",
+            "variants": [{
+                "arguments": [{
+                    "default": "12",
+                    "description": "The font size.",
+                    "name": "size",
+                    "type": "number"
+                }, {
+                    "default": "normal",
+                    "description": "True Type hinting mode.",
+                    "name": "hinting",
+                    "type": "HintingMode"
+                }, {
+                    "default": "2",
+                    "description": "The font DPI scale.",
+                    "name": "dpiscale",
+                    "type": "number"
+                }],
+                "returns": [{
+                    "description": "The rasterizer.",
+                    "name": "rasterizer",
+                    "type": "Rasterizer"
+                }]
+            }, {
+                "arguments": [{
+                    "description": "Path to font file.",
+                    "name": "fileName",
+                    "type": "string"
+                }, {
+                    "default": "12",
+                    "description": "The font size.",
+                    "name": "size",
+                    "type": "number"
+                }, {
+                    "default": "normal",
+                    "description": "True Type hinting mode.",
+                    "name": "hinting",
+                    "type": "HintingMode"
+                }, {
+                    "default": "2",
+                    "description": "The font DPI scale.",
+                    "name": "dpiscale",
+                    "type": "number"
+                }],
+                "returns": [{
+                    "description": "The rasterizer.",
+                    "name": "rasterizer",
+                    "type": "Rasterizer"
+                }]
+            }, {
+                "arguments": [{
+                    "description": "File data containing font.",
+                    "name": "fileData",
+                    "type": "FileData"
+                }, {
+                    "default": "12",
+                    "description": "The font size.",
+                    "name": "size",
+                    "type": "number"
+                }, {
+                    "default": "normal",
+                    "description": "True Type hinting mode.",
+                    "name": "hinting",
+                    "type": "HintingMode"
+                }, {
+                    "default": "2",
+                    "description": "The font DPI scale.",
+                    "name": "dpiscale",
+                    "type": "number"
+                }],
+                "returns": [{
+                    "description": "The rasterizer.",
+                    "name": "rasterizer",
+                    "type": "Rasterizer"
+                }]
+            }]
+        }, {
+            "description": "Creates a bew BCFNT Rasterizer. Nintendo 3DS only",
+            "name": "newBCFNTRasterizer",
+            "variants": [{
+                "arguments": [{
+                    "default": "12",
+                    "description": "The font size.",
+                    "name": "size",
+                    "type": "number"
+                }],
+                "returns": [{
+                    "description": "The rasterizer.",
+                    "name": "rasterizer",
+                    "type": "Rasterizer"
+                }]
+            }, {
+                "arguments": [{
+                    "description": "Path to font file.",
+                    "name": "fileName",
+                    "type": "string"
+                }, {
+                    "default": "12",
+                    "description": "The font size.",
+                    "name": "size",
+                    "type": "number"
+                }],
+                "returns": [{
+                    "description": "The rasterizer.",
+                    "name": "rasterizer",
+                    "type": "Rasterizer"
+                }]
+            }, {
+                "arguments": [{
+                    "description": "File data containing font.",
+                    "name": "fileData",
+                    "type": "FileData"
+                }, {
+                    "default": "12",
+                    "description": "The font size.",
+                    "name": "size",
+                    "type": "number"
+                }],
+                "returns": [{
+                    "description": "The rasterizer.",
+                    "name": "rasterizer",
+                    "type": "Rasterizer"
+                }]
+            }]
+        }, {
+            "description": "Creates a new GlyphData.",
+            "name": "newGlyphData",
+            "variants": [{
+                "arguments": [{
+                    "description": "The rasterizer.",
+                    "name": "rasterizer",
+                    "type": "Rasterizer"
+                }, {
+                    "description": "The character code of the glyph.",
+                    "name": "glyph",
+                    "type": "number"
+                }],
+                "returns": [{
+                    "description": "The GlyphData.",
+                    "name": "glyphData",
+                    "type": "GlyphData"
+                }]
+            }]
+        }],
+        "name": "font",
+        "types": [{
+            "constructors": ["newRasterizer", "newTrueTypeRasterizer", "newBCFNTRasterizer"],
+            "description": "A Rasterizer handles font rendering, containing the font data (image or TrueType font) and drawable glyphs.",
+            "functions": [{
+                "description": "Gets font advance.",
+                "name": "getAdvance",
+                "variants": [{
+                    "returns": [{
+                        "description": "Font advance.",
+                        "name": "advance",
+                        "type": "number"
+                    }]
+                }]
+            }, {
+                "description": "Gets ascent height.",
+                "name": "getAscent",
+                "variants": [{
+                    "returns": [{
+                        "description": "Ascent height.",
+                        "name": "height",
+                        "type": "number"
+                    }]
+                }]
+            }, {
+                "description": "Gets descent height.",
+                "name": "getDescent",
+                "variants": [{
+                    "returns": [{
+                        "description": "Descent height.",
+                        "name": "height",
+                        "type": "number"
+                    }]
+                }]
+            }, {
+                "description": "Gets number of glyphs in font.",
+                "name": "getGlyphCount",
+                "variants": [{
+                    "returns": [{
+                        "description": "Glyphs count.",
+                        "name": "count",
+                        "type": "number"
+                    }]
+                }]
+            }, {
+                "description": "Gets glyph data of a specified glyph.",
+                "name": "getGlyphData",
+                "variants": [{
+                    "arguments": [{
+                        "description": "Glyph",
+                        "name": "glyph",
+                        "type": "string"
+                    }],
+                    "returns": [{
+                        "description": "Glyph data",
+                        "name": "glyphData",
+                        "type": "GlyphData"
+                    }]
+                }, {
+                    "arguments": [{
+                        "description": "Glyph number",
+                        "name": "glyphNumber",
+                        "type": "number"
+                    }],
+                    "returns": [{
+                        "description": "Glyph data",
+                        "name": "glyphData",
+                        "type": "GlyphData"
+                    }]
+                }, {
+                    "description": "Gets font height.",
+                    "name": "getHeight",
+                    "variants": [{
+                        "returns": [{
+                            "description": "Font height.",
+                            "name": "height",
+                            "type": "number"
+                        }]
+                    }]
+                }, {
+                    "description": "Gets line height of a font.",
+                    "name": "getLineHeight",
+                    "variants": [{
+                        "returns": [{
+                            "description": "Line height of a font.",
+                            "name": "height",
+                            "type": "number"
+                        }]
+                    }]
+                }, {
+                    "description": "Checks if font contains specified glyphs.",
+                    "name": "hasGlyphs",
+                    "variants": [{
+                        "arguments": [{
+                            "description": "Glyph",
+                            "name": "glyph1",
+                            "type": "string"
+                        }, {
+                            "description": "Glyph",
+                            "name": "glyph2",
+                            "type": "string"
+                        }, {
+                            "description": "Additional glyphs",
+                            "name": "...",
+                            "type": "string"
+                        }],
+                        "returns": [{
+                            "description": "Whatever font contains specified glyphs.",
+                            "name": "hasGlyphs",
+                            "type": "boolean"
+                        }]
+                    }, {
+                        "arguments": [{
+                            "description": "Glyph",
+                            "name": "glyph1",
+                            "type": "number"
+                        }, {
+                            "description": "Glyph",
+                            "name": "glyph2",
+                            "type": "number"
+                        }, {
+                            "description": "Additional glyphs",
+                            "name": "...",
+                            "type": "number"
+                        }],
+                        "returns": [{
+                            "description": "Whatever font contains specified glyphs.",
+                            "name": "hasGlyphs",
+                            "type": "boolean"
+                        }]
+                    }]
+                }]
+            }],
+            "name": "Rasterizer",
+            "supertypes": ["Object"]
+        }, {
+            "constructors": ["newGlyphData"],
+            "description": "A GlyphData represents a drawable symbol of a font Rasterizer.",
+            "functions": [{
+                "description": "Gets glyph data of a specified glyph.",
+                "name": "getGlyphData",
+                "variants": [{
+                    "description": "Gets glyph advance.",
+                    "name": "getAdvance",
+                    "variants": [{
+                        "returns": [{
+                            "description": "Glyph advance.",
+                            "name": "advance",
+                            "type": "number"
+                        }]
+                    }]
+                }, {
+                    "description": "Gets glyph bearing.",
+                    "name": "getBearing",
+                    "variants": [{
+                        "returns": [{
+                            "description": "Glyph bearing x.",
+                            "name": "bx",
+                            "type": "number"
+                        }, {
+                            "description": "Glyph bearing y.",
+                            "name": "by",
+                            "type": "number"
+                        }]
+                    }]
+                }, {
+                    "description": "Gets glyph bounding box.",
+                    "name": "getBoundingBox",
+                    "variants": [{
+                        "returns": [{
+                            "description": "Glyph position x.",
+                            "name": "x",
+                            "type": "number"
+                        }, {
+                            "description": "Glyph position y.",
+                            "name": "y",
+                            "type": "number"
+                        }, {
+                            "description": "Glyph width.",
+                            "name": "width",
+                            "type": "number"
+                        }, {
+                            "description": "Glyph height.",
+                            "name": "height",
+                            "type": "number"
+                        }]
+                    }]
+                }, {
+                    "description": "Gets glyph dimensions.",
+                    "name": "getDimensions",
+                    "variants": [{
+                        "returns": [{
+                            "description": "Glyph width.",
+                            "name": "width",
+                            "type": "number"
+                        }, {
+                            "description": "Glyph height.",
+                            "name": "height",
+                            "type": "number"
+                        }]
+                    }]
+                }, {
+                    "description": "Gets glyph pixel format.",
+                    "name": "getFormat",
+                    "variants": [{
+                        "returns": [{
+                            "description": "Glyph pixel format.",
+                            "name": "format",
+                            "type": "string"
+                        }]
+                    }]
+                }, {
+                    "description": "Gets glyph number.",
+                    "name": "getGlyph",
+                    "variants": [{
+                        "returns": [{
+                            "description": "Glyph number.",
+                            "name": "glyph",
+                            "type": "number"
+                        }]
+                    }]
+                }, {
+                    "description": "Gets glyph string.",
+                    "name": "getGlyphString",
+                    "variants": [{
+                        "returns": [{
+                            "description": "Glyph string.",
+                            "name": "glyph",
+                            "type": "string"
+                        }]
+                    }]
+                }, {
+                    "description": "Gets glyph height.",
+                    "name": "getHeight",
+                    "variants": [{
+                        "returns": [{
+                            "description": "Glyph height.",
+                            "name": "height",
+                            "type": "number"
+                        }]
+                    }]
+                }, {
+                    "description": "Gets glyph width.",
+                    "name": "getWidth",
+                    "variants": [{
+                        "returns": [{
+                            "description": "Glyph width.",
+                            "name": "width",
+                            "type": "number"
+                        }]
+                    }]
+                }]
+            }],
+            "name": "GlyphData",
             "supertypes": ["Data", "Object"]
         }]
     }, {
@@ -3160,6 +2884,16 @@ export let api = {
                 }]
             }]
         }, {
+            "description": "Gets the currently rendering screen",
+            "name" : "getActiveScreen",
+            "variants": [{
+                "returns": [{
+                    "description": "The currently rendering screen",
+                    "name": "screen",
+                    "type": "string"
+                }]
+            }]
+        }, {
             "description": "Gets the current background color.",
             "name": "getBackgroundColor",
             "variants": [{
@@ -3484,12 +3218,63 @@ export let api = {
                 }]
             }]
         }, {
-            "description": "Gets the width of the window.",
+            "description": "Get the names of the renderable screens.",
+            "name": "getScreens",
+            "variants": [{
+                "returns": [{
+                    "description": "The names of the renderable screens.",
+                    "name": "screens",
+                    "type": "table"
+                }]
+            }]
+        }, {
+            "description": "Check if Wide Mode is enabled. Nintendo 3DS only",
+            "name": "getWide",
+            "variants": [{
+                "returns": [{
+                    "description": "True if Wide Mode is enabled, false otherwise.",
+                    "name": "wide",
+                    "type": "boolean"
+                }]
+            }]
+        }, {
+            "description": "Gets the width of the window. On 3DS, you may pass \"top\" or \"bottom\" to get a specific screen's width.",
             "name": "getWidth",
             "variants": [{
                 "returns": [{
                     "description": "The width of the window.",
                     "name": "width",
+                    "type": "number"
+                }]
+            }, {
+                "arguments": [{
+                    "description": "The name of the specific screen to get the width of.",
+                    "name": "screenName",
+                    "type": "string"
+                }],
+                "returns": [{
+                    "description": "The width of the screen.",
+                    "name": "width",
+                    "type": "number"
+                }]
+            }]
+        }, {
+            "description": "Check if Stereoscopic 3D is enabled. Nintendo 3DS only",
+            "name": "get3D",
+            "variants": [{
+                "returns": [{
+                    "description": "True if Stereoscopic 3D is enabled, false otherwise.",
+                    "name": "enabled",
+                    "type": "boolean"
+                }]
+            }]
+        }, {
+            "description": "Gets the current 3D slider value on 3DS (0 ~ 1), useful for \"3D rendering\". This will throw an error on Switch as it is not supported on there.",
+            "name": "get3DDepth",
+            "variants": [{
+                "returns": [{
+                    "description": "The current 3D slider value.",
+                    "name": "sysDepth",
                     "type": "number"
                 }]
             }]
@@ -3519,22 +3304,22 @@ export let api = {
                 "description": "Disables scissor."
             }]
         }, {
-            "description": "Gets whether gamma-correct rendering is supported and enabled. It can be enabled by setting t.gammacorrect = true in love.conf.\n\nNot all devices support gamma-correct rendering, in which case it will be automatically disabled and this function will return false. It is supported on desktop systems which have graphics cards that are capable of using OpenGL 3 / DirectX 10, and iOS devices that can use OpenGL ES 3.",
-            "name": "isGammaCorrect",
+            "description": "Check if active.",
+            "name": "isActive",
             "variants": [{
                 "returns": [{
-                    "description": "True if gamma-correct rendering is supported and was enabled in love.conf, false otherwise.",
-                    "name": "gammacorrect",
+                    "description": "True if active, false otherwise.",
+                    "name": "active",
                     "type": "boolean"
                 }]
             }]
         }, {
-            "description": "Gets whether wireframe mode is used when drawing.",
-            "name": "isWireframe",
+            "description": "Check if created.",
+            "name": "isCreated",
             "variants": [{
                 "returns": [{
-                    "description": "True if wireframe lines are used when drawing, false if it's not.",
-                    "name": "wireframe",
+                    "description": "True if created, false otherwise.",
+                    "name": "created",
                     "type": "boolean"
                 }]
             }]
@@ -3667,172 +3452,6 @@ export let api = {
                 }]
             }]
         }, {
-            "description": "Creates a new Mesh.\n\nUse Mesh:setTexture if the Mesh should be textured with an Image or Canvas when it's drawn.",
-            "name": "newMesh",
-            "variants": [{
-                "arguments": [{
-                    "description": "The table filled with vertex information tables for each vertex as follows:",
-                    "name": "vertices",
-                    "table": [{
-                        "description": "The position of the vertex on the x-axis.",
-                        "name": "[1]",
-                        "type": "number"
-                    }, {
-                        "description": "The position of the vertex on the y-axis.",
-                        "name": "[2]",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "The u texture coordinate of the vertex. Texture coordinates are normally in the range of [0, 1], but can be greater or less (see WrapMode.)",
-                        "name": "[3]",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "The v texture coordinate of the vertex. Texture coordinates are normally in the range of [0, 1], but can be greater or less (see WrapMode.)",
-                        "name": "[4]",
-                        "type": "number"
-                    }, {
-                        "default": "255",
-                        "description": "The red component of the vertex color.",
-                        "name": "[5]",
-                        "type": "number"
-                    }, {
-                        "default": "255",
-                        "description": "The green component of the vertex color.",
-                        "name": "[6]",
-                        "type": "number"
-                    }, {
-                        "default": "255",
-                        "description": "The blue component of the vertex color.",
-                        "name": "[7]",
-                        "type": "number"
-                    }, {
-                        "default": "255",
-                        "description": "The alpha component of the vertex color.",
-                        "name": "[8]",
-                        "type": "number"
-                    }],
-                    "type": "table"
-                }, {
-                    "default": "\"fan\"",
-                    "description": "How the vertices are used when drawing. The default mode \"fan\" is sufficient for simple convex polygons.",
-                    "name": "mode",
-                    "type": "MeshDrawMode"
-                }, {
-                    "default": "\"dynamic\"",
-                    "description": "The expected usage of the Mesh. The specified usage mode affects the Mesh's memory usage and performance.",
-                    "name": "usage",
-                    "type": "SpriteBatchUsage"
-                }],
-                "description": "Creates a standard Mesh with the specified vertices.",
-                "returns": [{
-                    "description": "The new Mesh.",
-                    "name": "mesh",
-                    "type": "Mesh"
-                }]
-            }, {
-                "arguments": [{
-                    "description": "The total number of vertices the Mesh will use. Each vertex is initialized to {0,0, 0,0, 255,255,255,255}.",
-                    "name": "vertexcount",
-                    "type": "number"
-                }, {
-                    "default": "\"fan\"",
-                    "description": "How the vertices are used when drawing. The default mode \"fan\" is sufficient for simple convex polygons.",
-                    "name": "mode",
-                    "type": "MeshDrawMode"
-                }, {
-                    "default": "\"dynamic\"",
-                    "description": "The expected usage of the Mesh. The specified usage mode affects the Mesh's memory usage and performance.",
-                    "name": "usage",
-                    "type": "SpriteBatchUsage"
-                }],
-                "description": "Creates a standard Mesh with the specified number of vertices.",
-                "returns": [{
-                    "description": "The new Mesh.",
-                    "name": "mesh",
-                    "type": "Mesh"
-                }]
-            }, {
-                "arguments": [{
-                    "description": "A table in the form of {attribute, ...}. Each attribute is a table which specifies a custom vertex attribute used for each vertex.",
-                    "name": "vertexformat",
-                    "table": [{
-                        "description": "A table containing the attribute's name, it's data type, and the number of components in the attribute, in the form of {name, datatype, components}.",
-                        "name": "attribute",
-                        "type": "table"
-                    }, {
-                        "description": "Additional vertex attribute format tables.",
-                        "name": "...",
-                        "type": "table"
-                    }],
-                    "type": "table"
-                }, {
-                    "description": "The table filled with vertex information tables for each vertex, in the form of {vertex, ...} where each vertex is a table in the form of {attributecomponent, ...}.",
-                    "name": "vertices",
-                    "table": [{
-                        "description": "The first component of the first vertex attribute in the vertex.",
-                        "name": "attributecomponent",
-                        "type": "number"
-                    }, {
-                        "description": "Additional components of all vertex attributes in the vertex.",
-                        "name": "...",
-                        "type": "number"
-                    }],
-                    "type": "table"
-                }, {
-                    "default": "\"fan\"",
-                    "description": "How the vertices are used when drawing. The default mode \"fan\" is sufficient for simple convex polygons.",
-                    "name": "mode",
-                    "type": "MeshDrawMode"
-                }, {
-                    "default": "\"dynamic\"",
-                    "description": "The expected usage of the Mesh. The specified usage mode affects the Mesh's memory usage and performance.",
-                    "name": "usage",
-                    "type": "SpriteBatchUsage"
-                }],
-                "description": "Creates a Mesh with custom vertex attributes and the specified vertex data.",
-                "returns": [{
-                    "description": "The new Mesh.",
-                    "name": "mesh",
-                    "type": "Mesh"
-                }]
-            }, {
-                "arguments": [{
-                    "description": "A table in the form of {attribute, ...}. Each attribute is a table which specifies a custom vertex attribute used for each vertex.",
-                    "name": "vertexformat",
-                    "table": [{
-                        "description": "A table containing the attribute's name, it's data type, and the number of components in the attribute, in the form of {name, datatype, components}.",
-                        "name": "attribute",
-                        "type": "table"
-                    }, {
-                        "description": "Additional vertex attribute format tables.",
-                        "name": "...",
-                        "type": "table"
-                    }],
-                    "type": "table"
-                }, {
-                    "description": "The total number of vertices the Mesh will use.",
-                    "name": "vertexcount",
-                    "type": "number"
-                }, {
-                    "default": "\"fan\"",
-                    "description": "How the vertices are used when drawing. The default mode \"fan\" is sufficient for simple convex polygons.",
-                    "name": "mode",
-                    "type": "MeshDrawMode"
-                }, {
-                    "default": "\"dynamic\"",
-                    "description": "The expected usage of the Mesh. The specified usage mode affects the Mesh's memory usage and performance.",
-                    "name": "usage",
-                    "type": "SpriteBatchUsage"
-                }],
-                "description": "Creates a Mesh with custom vertex attributes and the specified number of vertices.",
-                "returns": [{
-                    "description": "The new Mesh.",
-                    "name": "mesh",
-                    "type": "Mesh"
-                }]
-            }]
-        }, {
             "description": "Creates a new Image from a filepath, FileData, an ImageData, or a CompressedImageData, and optionally generates or specifies mipmaps for the image.",
             "name": "newImage",
             "variants": [{
@@ -3896,109 +3515,6 @@ export let api = {
                 }]
             }]
         }, {
-            "description": "Creates a new Font by loading a specifically formatted image.\n\nIn versions prior to 0.9.0, LÖVE expects ISO 8859-1 encoding for the glyphs string.",
-            "name": "newImageFont",
-            "variants": [{
-                "arguments": [{
-                    "description": "The filepath to the image file.",
-                    "name": "filename",
-                    "type": "string"
-                }, {
-                    "description": "A string of the characters in the image in order from left to right.",
-                    "name": "glyphs",
-                    "type": "string"
-                }],
-                "returns": [{
-                    "description": "A Font object which can be used to draw text on screen.",
-                    "name": "font",
-                    "type": "Font"
-                }]
-            }, {
-                "arguments": [{
-                    "description": "The ImageData object to create the font from.",
-                    "name": "imageData",
-                    "type": "ImageData"
-                }, {
-                    "description": "A string of the characters in the image in order from left to right.",
-                    "name": "glyphs",
-                    "type": "string"
-                }],
-                "returns": [{
-                    "description": "A Font object which can be used to draw text on screen.",
-                    "name": "font",
-                    "type": "Font"
-                }]
-            }, {
-                "arguments": [{
-                    "description": "The filepath to the image file.",
-                    "name": "filename",
-                    "type": "string"
-                }, {
-                    "description": "A string of the characters in the image in order from left to right.",
-                    "name": "glyphs",
-                    "type": "string"
-                }, {
-                    "default": "0",
-                    "description": "Additional spacing (positive or negative) to apply to each glyph in the Font.",
-                    "name": "extraspacing",
-                    "type": "number"
-                }],
-                "returns": [{
-                    "description": "A Font object which can be used to draw text on screen.",
-                    "name": "font",
-                    "type": "Font"
-                }]
-            }]
-        }, {
-            "description": "Creates a new ParticleSystem.",
-            "name": "newParticleSystem",
-            "variants": [{
-                "arguments": [{
-                    "description": "The Image or Canvas to use.",
-                    "name": "texture",
-                    "type": "Texture"
-                }, {
-                    "description": "The max number of particles at the same time.",
-                    "name": "buffer",
-                    "type": "number"
-                }],
-                "returns": [{
-                    "description": "A new ParticleSystem.",
-                    "name": "system",
-                    "type": "ParticleSystem"
-                }]
-            }]
-        }, {
-            "description": "Creates a new Shader object for hardware-accelerated vertex and pixel effects. A Shader contains either vertex shader code, pixel shader code, or both.\n\nVertex shader code must contain at least one function, named position, which is the function that will produce transformed vertex positions of drawn objects in screen-space.\n\nPixel shader code must contain at least one function, named effect, which is the function that will produce the color which is blended onto the screen for each pixel a drawn object touches.",
-            "name": "newShader",
-            "variants": [{
-                "arguments": [{
-                    "description": "The pixel shader or vertex shader code, or a filename pointing to a file with the code.",
-                    "name": "code",
-                    "type": "string"
-                }],
-                "returns": [{
-                    "description": "A Shader object for use in drawing operations.",
-                    "name": "shader",
-                    "type": "Shader"
-                }]
-            }, {
-                "arguments": [{
-                    "description": "The pixel shader code, or a filename pointing to a file with the code.",
-                    "name": "pixelcode",
-                    "type": "string"
-                }, {
-                    "description": "The vertex shader code, or a filename pointing to a file with the code.",
-                    "name": "vertexcode",
-                    "type": "string"
-                }],
-                "returns": [{
-                    "description": "A Shader object for use in drawing operations.",
-                    "name": "shader",
-                    "type": "Shader"
-                }]
-            }]
-        }, {
             "description": "Creates a new Font.",
             "name": "newText",
             "variants": [{
@@ -4053,50 +3569,9 @@ export let api = {
                     "type": "Quad"
                 }]
             }]
-        }, {
-            "description": "Creates a screenshot and returns the image data.",
-            "name": "newScreenshot",
-            "variants": [{
-                "arguments": [{
-                    "default": "false",
-                    "description": "Whether to include the screen's alpha channel in the ImageData. If false, the screenshot will be fully opaque.",
-                    "name": "copyAlpha",
-                    "type": "boolean"
-                }],
-                "returns": [{
-                    "description": "The image data of the screenshot.",
-                    "name": "screenshot",
-                    "type": "ImageData"
-                }]
-            }]
-        }, {
-            "description": "Creates a new SpriteBatch object.",
-            "name": "newSpriteBatch",
-            "variants": [{
-                "arguments": [{
-                    "description": "The Image or Canvas to use for the sprites.",
-                    "name": "texture",
-                    "type": "Texture"
-                }, {
-                    "default": "1000",
-                    "description": "The max number of sprites.",
-                    "name": "maxsprites",
-                    "type": "number"
-                }, {
-                    "default": "\"dynamic\"",
-                    "description": "The expected usage of the SpriteBatch. The specified usage mode affects the SpriteBatch's memory usage and performance.",
-                    "name": "usage",
-                    "type": "SpriteBatchUsage"
-                }],
-                "returns": [{
-                    "description": "The new SpriteBatch.",
-                    "name": "spriteBatch",
-                    "type": "SpriteBatch"
-                }]
-            }]
-        }, {
+        },  {
             "description": "Creates a new drawable Video. Currently only Ogg Theora video files are supported.",
-            "name": "newVideo",
+            "name": "_newVideo",
             "variants": [{
                 "arguments": [{
                     "description": "The file path to the Ogg Theora video file.",
@@ -4585,6 +4060,16 @@ export let api = {
                 }]
             }]
         }, {
+            "description": "Sets the current screen to be renderer. Used internally, do not call this.",
+            "name": "setActiveScreen",
+            "variants": [{
+                "arguments": [{
+                    "description": "The name of the screen to set",
+                    "name": "screen",
+                    "type": "string"
+                }]
+            }]
+        }, {
             "description": "Sets the background color.",
             "name": "setBackgroundColor",
             "variants": [{
@@ -4832,16 +4317,6 @@ export let api = {
                 }]
             }]
         }, {
-            "description": "Sets or resets a Shader as the current pixel effect or vertex shaders. All drawing operations until the next love.graphics.setShader will be drawn using the Shader object specified.\n\nDisables the shaders when called without arguments.",
-            "name": "setShader",
-            "variants": [[], {
-                "arguments": [{
-                    "description": "The new shader.",
-                    "name": "shader",
-                    "type": "Shader"
-                }]
-            }]
-        }, {
             "description": "Sets the point size.",
             "name": "setPointSize",
             "variants": [{
@@ -4877,28 +4352,22 @@ export let api = {
                 "description": "Disables scissor."
             }]
         }, {
-            "description": "Configures or disables stencil testing.\n\nWhen stencil testing is enabled, the geometry of everything that is drawn afterward will be clipped / stencilled out based on a comparison between the arguments of this function and the stencil value of each pixel that the geometry touches. The stencil values of pixels are affected via love.graphics.stencil.\n\nEach Canvas has its own per-pixel stencil values.",
-            "name": "setStencilTest",
+            "description": "Sets whether Wide Mode is enabled. Nintendo 3DS only",
+            "name": "setWide",
             "variants": [{
                 "arguments": [{
-                    "description": "The type of comparison to make for each pixel.",
-                    "name": "comparemode",
-                    "type": "CompareMode"
-                }, {
-                    "description": "The value to use when comparing with the stencil value of each pixel. Must be between 0 and 255.",
-                    "name": "comparevalue",
-                    "type": "number"
+                    "description": "Whether to enable or disable Wide Mode",
+                    "name": "wide",
+                    "type": "boolean"
                 }]
-            }, {
-                "description": "Disables stencil testing."
             }]
         }, {
-            "description": "Sets whether wireframe lines will be used when drawing.\n\nWireframe mode should only be used for debugging. The lines drawn with it enabled do not behave like regular love.graphics lines: their widths don't scale with the coordinate transformations or with love.graphics.setLineWidth, and they don't use the smooth LineStyle.",
-            "name": "setWireframe",
+            "description": "Sets whether Stereoscopic 3D is enabled. Nintendo 3DS only",
+            "name": "set3D",
             "variants": [{
                 "arguments": [{
-                    "description": "True to enable wireframe mode when drawing, false to disable it.",
-                    "name": "enable",
+                    "description": "Whether to enable or disable Stereoscopic 3D",
+                    "name": "enabled",
                     "type": "boolean"
                 }]
             }]
@@ -4914,31 +4383,6 @@ export let api = {
                     "description": "The shear factor on the y-axis.",
                     "name": "ky",
                     "type": "number"
-                }]
-            }]
-        }, {
-            "description": "Draws geometry as a stencil.\n\nThe geometry drawn by the supplied function sets invisible stencil values of pixels, instead of setting pixel colors. The stencil values of pixels can act like a mask / stencil - love.graphics.setStencilTest can be used afterward to determine how further rendering is affected by the stencil values in each pixel.\n\nEach Canvas has its own per-pixel stencil values. Stencil values are within the range of [0, 255].",
-            "name": "stencil",
-            "variants": [{
-                "arguments": [{
-                    "description": "Function which draws geometry. The stencil values of pixels, rather than the color of each pixel, will be affected by the geometry.",
-                    "name": "stencilfunction",
-                    "type": "function"
-                }, {
-                    "default": "\"replace\"",
-                    "description": "How to modify any stencil values of pixels that are touched by what's drawn in the stencil function.",
-                    "name": "action",
-                    "type": "StencilAction"
-                }, {
-                    "default": "1",
-                    "description": "The new stencil value to use for pixels if the \"replace\" stencil action is used. Has no effect with other stencil actions. Must be between 0 and 255.",
-                    "name": "value",
-                    "type": "number"
-                }, {
-                    "default": "false",
-                    "description": "True to preserve old stencil values of pixels, false to re-set every pixel's stencil value to 0 before executing the stencil function. love.graphics.clear will also re-set all stencil values.",
-                    "name": "keepvalues",
-                    "type": "boolean"
                 }]
             }]
         }, {
@@ -5309,505 +4753,6 @@ export let api = {
             }],
             "name": "Font",
             "supertypes": ["Object"]
-        }, {
-            "constructors": ["newMesh"],
-            "description": "A 2D polygon mesh used for drawing arbitrary textured shapes.",
-            "functions": [{
-                "description": "Attaches a vertex attribute from a different Mesh onto this Mesh, for use when drawing. This can be used to share vertex attribute data between several different Meshes.",
-                "name": "attachAttribute",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The name of the vertex attribute to attach.",
-                        "name": "name",
-                        "type": "string"
-                    }, {
-                        "description": "The Mesh to get the vertex attribute from.",
-                        "name": "mesh",
-                        "type": "Mesh"
-                    }]
-                }]
-            }, {
-                "description": "Gets the mode used when drawing the Mesh.",
-                "name": "getDrawMode",
-                "variants": [{
-                    "returns": [{
-                        "description": "The mode used when drawing the Mesh.",
-                        "name": "mode",
-                        "type": "MeshDrawMode"
-                    }]
-                }]
-            }, {
-                "description": "Gets the range of vertices used when drawing the Mesh.\n\nIf the Mesh's draw range has not been set previously with Mesh:setDrawRange, this function will return nil.",
-                "name": "getDrawRange",
-                "variants": [{
-                    "returns": [{
-                        "description": "The index of the first vertex used when drawing, or the index of the first value in the vertex map used if one is set for this Mesh.",
-                        "name": "min",
-                        "type": "number"
-                    }, {
-                        "description": "The index of the last vertex used when drawing, or the index of the last value in the vertex map used if one is set for this Mesh.",
-                        "name": "max",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Gets the texture (Image or Canvas) used when drawing the Mesh.",
-                "name": "getTexture",
-                "variants": [{
-                    "returns": [{
-                        "description": "The Image or Canvas to texture the Mesh with when drawing, or nil if none is set.",
-                        "name": "texture",
-                        "type": "Texture"
-                    }]
-                }]
-            }, {
-                "description": "Gets the properties of a vertex in the Mesh.",
-                "name": "getVertex",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The index of the the vertex you want to retrieve the information for.",
-                        "name": "index",
-                        "type": "number"
-                    }],
-                    "returns": [{
-                        "description": "The first component of the first vertex attribute in the specified vertex.",
-                        "name": "attributecomponent",
-                        "type": "number"
-                    }, {
-                        "description": "Additional components of all vertex attributes in the specified vertex.",
-                        "name": "...",
-                        "type": "number"
-                    }]
-                }, {
-                    "arguments": [{
-                        "description": "The index of the the vertex you want to retrieve the information for.",
-                        "name": "index",
-                        "type": "number"
-                    }],
-                    "returns": [{
-                        "description": "The position of the vertex on the x-axis.",
-                        "name": "x",
-                        "type": "number"
-                    }, {
-                        "description": "The position of the vertex on the y-axis.",
-                        "name": "y",
-                        "type": "number"
-                    }, {
-                        "description": "The horizontal component of the texture coordinate.",
-                        "name": "u",
-                        "type": "number"
-                    }, {
-                        "description": "The vertical component of the texture coordinate.",
-                        "name": "v",
-                        "type": "number"
-                    }, {
-                        "description": "The red component of the vertex's color.",
-                        "name": "r",
-                        "type": "number"
-                    }, {
-                        "description": "The green component of the vertex's color.",
-                        "name": "g",
-                        "type": "number"
-                    }, {
-                        "description": "The blue component of the vertex's color.",
-                        "name": "b",
-                        "type": "number"
-                    }, {
-                        "description": "The alpha component of the vertex's color.",
-                        "name": "a",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Gets the properties of a specific attribute within a vertex in the Mesh.\n\nMeshes without a custom vertex format specified in love.graphics.newMesh have position as their first attribute, texture coordinates as their second attribute, and color as their third attribute.",
-                "name": "getVertexAttribute",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The index of the the vertex to be modified.",
-                        "name": "vertexindex",
-                        "type": "number"
-                    }, {
-                        "description": "The index of the attribute within the vertex to be modified.",
-                        "name": "attributeindex",
-                        "type": "number"
-                    }],
-                    "returns": [{
-                        "description": "The value of the first component of the attribute.",
-                        "name": "value1",
-                        "type": "number"
-                    }, {
-                        "description": "The value of the second component of the attribute.",
-                        "name": "value2",
-                        "type": "number"
-                    }, {
-                        "description": "Any additional vertex attribute components.",
-                        "name": "...",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Returns the total number of vertices in the Mesh.",
-                "name": "getVertexCount",
-                "variants": [{
-                    "returns": [{
-                        "description": "The total number of vertices in this Mesh.",
-                        "name": "num",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Gets the vertex format that the Mesh was created with.",
-                "name": "getVertexFormat",
-                "variants": [{
-                    "returns": [{
-                        "description": "The vertex format of the Mesh, which is a table containing tables for each vertex attribute the Mesh was created with, in the form of {attribute, ...}.",
-                        "name": "format",
-                        "table": [{
-                            "description": "A table containing the attribute's name, it's data type, and the number of components in the attribute, in the form of {name, datatype, components}.",
-                            "name": "attribute",
-                            "type": "table"
-                        }, {
-                            "description": "Additional vertex attributes in the Mesh.",
-                            "name": "...",
-                            "type": "table"
-                        }],
-                        "type": "table"
-                    }]
-                }]
-            }, {
-                "description": "Gets the vertex map for the Mesh. The vertex map describes the order in which the vertices are used when the Mesh is drawn. The vertices, vertex map, and mesh draw mode work together to determine what exactly is displayed on the screen.\n\nIf no vertex map has been set previously via Mesh:setVertexMap, then this function will return nil in LÖVE 0.10.0+, or an empty table in 0.9.2 and older.",
-                "name": "getVertexMap",
-                "variants": [{
-                    "returns": [{
-                        "description": "A table containing a list of vertex indices used when drawing.",
-                        "name": "map",
-                        "type": "table"
-                    }]
-                }]
-            }, {
-                "description": "Gets whether a specific vertex attribute in the Mesh is enabled. Vertex data from disabled attributes is not used when drawing the Mesh.",
-                "name": "isAttributeEnabled",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The name of the vertex attribute to enable or disable.",
-                        "name": "name",
-                        "type": "string"
-                    }],
-                    "returns": [{
-                        "description": "Whether the vertex attribute is used when drawing this Mesh.",
-                        "name": "enabled",
-                        "type": "boolean"
-                    }]
-                }]
-            }, {
-                "description": "Enables or disables a specific vertex attribute in the Mesh. Vertex data from disabled attributes is not used when drawing the Mesh.",
-                "name": "setAttributeEnabled",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The name of the vertex attribute to enable or disable.",
-                        "name": "name",
-                        "type": "string"
-                    }, {
-                        "description": "Whether the vertex attribute is used when drawing this Mesh.",
-                        "name": "enable",
-                        "type": "boolean"
-                    }]
-                }]
-            }, {
-                "description": "Sets the mode used when drawing the Mesh.",
-                "name": "setDrawMode",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The mode to use when drawing the Mesh.",
-                        "name": "mode",
-                        "type": "MeshDrawMode"
-                    }]
-                }]
-            }, {
-                "description": "Restricts the drawn vertices of the Mesh to a subset of the total.\n\nIf a vertex map is used with the Mesh, this method will set a subset of the values in the vertex map array to use, instead of a subset of the total vertices in the Mesh.\n\nFor example, if Mesh:setVertexMap(1, 2, 3, 1, 3, 4) and Mesh:setDrawRange(4, 6) are called, vertices 1, 3, and 4 will be drawn.",
-                "name": "setDrawRange",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The index of the first vertex to use when drawing, or the index of the first value in the vertex map to use if one is set for this Mesh.",
-                        "name": "min",
-                        "type": "number"
-                    }, {
-                        "description": "The index of the last vertex to use when drawing, or the index of the last value in the vertex map to use if one is set for this Mesh.",
-                        "name": "max",
-                        "type": "number"
-                    }]
-                }, {
-                    "description": "Allows all vertices in the Mesh to be drawn."
-                }]
-            }, {
-                "description": "Sets the texture (Image or Canvas) used when drawing the Mesh.\n\nWhen called without an argument disables the texture. Untextured meshes have a white color by default.",
-                "name": "setTexture",
-                "variants": [[], {
-                    "arguments": [{
-                        "description": "The Image or Canvas to texture the Mesh with when drawing.",
-                        "name": "texture",
-                        "type": "Texture"
-                    }]
-                }]
-            }, {
-                "description": "Sets the properties of a vertex in the Mesh.",
-                "name": "setVertex",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The index of the the vertex you want to modify.",
-                        "name": "index",
-                        "type": "number"
-                    }, {
-                        "description": "The first component of the first vertex attribute in the specified vertex.",
-                        "name": "attributecomponent",
-                        "type": "number"
-                    }, {
-                        "description": "Additional components of all vertex attributes in the specified vertex.",
-                        "name": "...",
-                        "type": "number"
-                    }]
-                }, {
-                    "arguments": [{
-                        "description": "The index of the the vertex you want to modify.",
-                        "name": "index",
-                        "type": "number"
-                    }, {
-                        "description": "A table with vertex information, in the form of {attributecomponent, ...}.",
-                        "name": "vertex",
-                        "table": [{
-                            "description": "The first component of the first vertex attribute in the specified vertex.",
-                            "name": "attributecomponent",
-                            "type": "number"
-                        }, {
-                            "description": "Additional components of all vertex attributes in the specified vertex.",
-                            "name": "...",
-                            "type": "number"
-                        }],
-                        "type": "table"
-                    }]
-                }, {
-                    "arguments": [{
-                        "description": "The index of the the vertex you want to modify.",
-                        "name": "index",
-                        "type": "number"
-                    }, {
-                        "description": "The position of the vertex on the x-axis.",
-                        "name": "x",
-                        "type": "number"
-                    }, {
-                        "description": "The position of the vertex on the y-axis.",
-                        "name": "y",
-                        "type": "number"
-                    }, {
-                        "description": "The horizontal component of the texture coordinate.",
-                        "name": "u",
-                        "type": "number"
-                    }, {
-                        "description": "The vertical component of the texture coordinate.",
-                        "name": "v",
-                        "type": "number"
-                    }, {
-                        "default": "255",
-                        "description": "The red component of the vertex's color.",
-                        "name": "r",
-                        "type": "number"
-                    }, {
-                        "default": "255",
-                        "description": "The green component of the vertex's color.",
-                        "name": "g",
-                        "type": "number"
-                    }, {
-                        "default": "255",
-                        "description": "The blue component of the vertex's color.",
-                        "name": "b",
-                        "type": "number"
-                    }, {
-                        "default": "255",
-                        "description": "The alpha component of the vertex's color.",
-                        "name": "a",
-                        "type": "number"
-                    }],
-                    "description": "Sets the vertex components of a Mesh that wasn't created with a custom vertex format."
-                }, {
-                    "arguments": [{
-                        "description": "The index of the the vertex you want to modify.",
-                        "name": "index",
-                        "type": "number"
-                    }, {
-                        "description": "A table with vertex information.",
-                        "name": "vertex",
-                        "table": [{
-                            "description": "The position of the vertex on the x-axis.",
-                            "name": "[1]",
-                            "type": "number"
-                        }, {
-                            "description": "The position of the vertex on the y-axis.",
-                            "name": "[2]",
-                            "type": "number"
-                        }, {
-                            "description": "The horizontal component of the texture coordinate.",
-                            "name": "[3]",
-                            "type": "number"
-                        }, {
-                            "description": "The vertical component of the texture coordinate.",
-                            "name": "[4]",
-                            "type": "number"
-                        }, {
-                            "default": "255",
-                            "description": "The red component of the vertex's color.",
-                            "name": "[5]",
-                            "type": "number"
-                        }, {
-                            "default": "255",
-                            "description": "The green component of the vertex's color.",
-                            "name": "[6]",
-                            "type": "number"
-                        }, {
-                            "default": "255",
-                            "description": "The blue component of the vertex's color.",
-                            "name": "[7]",
-                            "type": "number"
-                        }, {
-                            "default": "255",
-                            "description": "The alpha component of the vertex's color.",
-                            "name": "[8]",
-                            "type": "number"
-                        }],
-                        "type": "table"
-                    }],
-                    "description": "Sets the vertex components of a Mesh that wasn't created with a custom vertex format."
-                }]
-            }, {
-                "description": "Sets the properties of a specific attribute within a vertex in the Mesh.\n\nMeshes without a custom vertex format specified in love.graphics.newMesh have position as their first attribute, texture coordinates as their second attribute, and color as their third attribute.",
-                "name": "setVertexAttribute",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The index of the the vertex to be modified.",
-                        "name": "vertexindex",
-                        "type": "number"
-                    }, {
-                        "description": "The index of the attribute within the vertex to be modified.",
-                        "name": "attributeindex",
-                        "type": "number"
-                    }, {
-                        "description": "The value of the first component of the attribute.",
-                        "name": "value1",
-                        "type": "number"
-                    }, {
-                        "description": "The value of the second component of the attribute.",
-                        "name": "value2",
-                        "type": "number"
-                    }, {
-                        "description": "Any additional vertex attribute components.",
-                        "name": "...",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Sets if the per-vertex colors are used when rendering instead of the constant color (constant color being love.graphics.setColor or SpriteBatch:setColor)\n\nThe per-vertex colors are automatically enabled by default when making a new Mesh or when doing Mesh:setVertex, but only if at least one vertex color is not the default (255,255,255,255).",
-                "name": "setVertexColors",
-                "variants": [{
-                    "arguments": [{
-                        "description": "True to use per-vertex coloring.",
-                        "name": "on",
-                        "type": "boolean"
-                    }]
-                }]
-            }, {
-                "description": "Sets the vertex map for the Mesh. The vertex map describes the order in which the vertices are used when the Mesh is drawn. The vertices, vertex map, and mesh draw mode work together to determine what exactly is displayed on the screen.\n\nThe vertex map allows you to re-order or reuse vertices when drawing without changing the actual vertex parameters or duplicating vertices. It is especially useful when combined with different Mesh Draw Modes.",
-                "name": "setVertexMap",
-                "variants": [{
-                    "arguments": [{
-                        "description": "A table containing a list of vertex indices to use when drawing. Values must be in the range of [1, Mesh:getVertexCount()].",
-                        "name": "map",
-                        "type": "table"
-                    }]
-                }, {
-                    "arguments": [{
-                        "description": "The index of the first vertex to use when drawing. Must be in the range of [1, Mesh:getVertexCount()].",
-                        "name": "vi1",
-                        "type": "number"
-                    }, {
-                        "description": "The index of the second vertex to use when drawing.",
-                        "name": "vi2",
-                        "type": "number"
-                    }, {
-                        "description": "The index of the third vertex to use when drawing.",
-                        "name": "vi3",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Replaces a range of vertices in the Mesh with new ones. The total number of vertices in a Mesh cannot be changed after it has been created.",
-                "name": "setVertices",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The table filled with vertex information tables for each vertex, in the form of {vertex, ...} where each vertex is a table in the form of {attributecomponent, ...}.",
-                        "name": "vertices",
-                        "table": [{
-                            "description": "The first component of the first vertex attribute in the vertex.",
-                            "name": "attributecomponent",
-                            "type": "number"
-                        }, {
-                            "description": "Additional components of all vertex attributes in the vertex.",
-                            "name": "...",
-                            "type": "number"
-                        }, {
-                            "default": "1",
-                            "description": "The index of the first vertex to replace.",
-                            "name": "startvertex",
-                            "type": "number"
-                        }],
-                        "type": "table"
-                    }]
-                }, {
-                    "arguments": [{
-                        "description": "The table filled with vertex information tables for each vertex as follows:",
-                        "name": "vertices",
-                        "table": [{
-                            "description": "The position of the vertex on the x-axis.",
-                            "name": "[1]",
-                            "type": "number"
-                        }, {
-                            "description": "The position of the vertex on the y-axis.",
-                            "name": "[2]",
-                            "type": "number"
-                        }, {
-                            "description": "The horizontal component of the texture coordinate. Texture coordinates are normally in the range of [0, 1], but can be greater or less (see WrapMode).",
-                            "name": "[3]",
-                            "type": "number"
-                        }, {
-                            "description": "The vertical component of the texture coordinate. Texture coordinates are normally in the range of [0, 1], but can be greater or less (see WrapMode).",
-                            "name": "[4]",
-                            "type": "number"
-                        }, {
-                            "default": "255",
-                            "description": "The red color component.",
-                            "name": "[5]",
-                            "type": "number"
-                        }, {
-                            "default": "255",
-                            "description": "The green color component.",
-                            "name": "[6]",
-                            "type": "number"
-                        }, {
-                            "default": "255",
-                            "description": "The blue color component.",
-                            "name": "[7]",
-                            "type": "number"
-                        }, {
-                            "default": "255",
-                            "description": "The alpha color component.",
-                            "name": "[8]",
-                            "type": "number"
-                        }],
-                        "type": "table"
-                    }],
-                    "description": "Sets the vertex components of a Mesh that wasn't created with a custom vertex format."
-                }]
-            }],
-            "name": "Mesh",
-            "supertypes": ["Drawable", "Object"]
         }, {
             "constructors": ["newImage"],
             "description": "Drawable image type.",
@@ -6837,472 +5782,6 @@ export let api = {
             "name": "Quad",
             "supertypes": ["Object"]
         }, {
-            "constructors": ["newShader"],
-            "description": "A Shader is used for advanced hardware-accelerated pixel or vertex manipulation. These effects are written in a language based on GLSL (OpenGL Shading Language) with a few things simplified for easier coding.\n\nPotential uses for shaders include HDR/bloom, motion blur, grayscale/invert/sepia/any kind of color effect, reflection/refraction, distortions, bump mapping, and much more! Here is a collection of basic shaders and good starting point to learn: https://github.com/vrld/shine",
-            "functions": [{
-                "description": "Gets information about an 'extern' ('uniform') variable in the shader.",
-                "name": "getExternVariable",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The name of the extern variable.",
-                        "name": "name",
-                        "type": "string"
-                    }],
-                    "returns": [{
-                        "description": "The base type of the variable.",
-                        "name": "type",
-                        "type": "ShaderVariableType"
-                    }, {
-                        "description": "The number of components in the variable (e.g. 2 for a vec2 or mat2.)",
-                        "name": "components",
-                        "type": "number"
-                    }, {
-                        "description": "The number of elements in the array if the variable is an array, or 1 if not.",
-                        "name": "arrayelements",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Returns any warning and error messages from compiling the shader code. This can be used for debugging your shaders if there's anything the graphics hardware doesn't like.",
-                "name": "getWarnings",
-                "variants": [{
-                    "returns": [{
-                        "description": "Warning messages (if any).",
-                        "name": "warnings",
-                        "type": "string"
-                    }]
-                }]
-            }, {
-                "description": "Sends one or more values to a special (uniform) variable inside the shader. Uniform variables have to be marked using the uniform or extern keyword.",
-                "name": "send",
-                "variants": [{
-                    "arguments": [{
-                        "description": "Name of the number to send to the shader.",
-                        "name": "name",
-                        "type": "string"
-                    }, {
-                        "description": "Number to send to store in the uniform variable.",
-                        "name": "number",
-                        "type": "number"
-                    }, {
-                        "description": "Additional numbers to send if the uniform variable is an array.",
-                        "name": "...",
-                        "type": "number"
-                    }]
-                }, {
-                    "arguments": [{
-                        "description": "Name of the vector to send to the shader.",
-                        "name": "name",
-                        "type": "string"
-                    }, {
-                        "description": "Numbers to send to the uniform variable as a vector. The number of elements in the table determines the type of the vector (e.g. two numbers -> vec2). At least two and at most four numbers can be used.",
-                        "name": "vector",
-                        "type": "table"
-                    }, {
-                        "description": "Additional vectors to send if the uniform variable is an array. All vectors need to be of the same size (e.g. only vec3's).",
-                        "name": "...",
-                        "type": "table"
-                    }]
-                }, {
-                    "arguments": [{
-                        "description": "Name of the matrix to send to the shader.",
-                        "name": "name",
-                        "type": "string"
-                    }, {
-                        "description": "2x2, 3x3, or 4x4 matrix to send to the uniform variable. Using table form: {{a,b,c,d}, {e,f,g,h}, ... }.",
-                        "name": "matrix",
-                        "type": "table"
-                    }, {
-                        "description": "Additional matrices of the same type as matrix to store in a uniform array.",
-                        "name": "...",
-                        "type": "table"
-                    }]
-                }, {
-                    "arguments": [{
-                        "description": "Name of the Texture to send to the shader.",
-                        "name": "name",
-                        "type": "string"
-                    }, {
-                        "description": "Texture (Image or Canvas) to send to the uniform variable.",
-                        "name": "texture",
-                        "type": "Texture"
-                    }]
-                }, {
-                    "arguments": [{
-                        "description": "Name of the boolean to send to the shader.",
-                        "name": "name",
-                        "type": "string"
-                    }, {
-                        "description": "Boolean to send to store in the uniform variable.",
-                        "name": "boolean",
-                        "type": "boolean"
-                    }, {
-                        "description": "Additional booleans to send if the uniform variable is an array.",
-                        "name": "...",
-                        "type": "boolean"
-                    }]
-                }]
-            }, {
-                "description": "Sends one or more colors to a special (extern / uniform) vec3 or vec4 variable inside the shader. The color components must be in the range of [0, 255], unlike Shader:send. The colors are gamma-corrected if global gamma-correction is enabled.",
-                "name": "sendColor",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The name of the color extern variable to send to in the shader.",
-                        "name": "name",
-                        "type": "string"
-                    }, {
-                        "description": "A table with red, green, blue, and optional alpha color components in the range of [0, 255] to send to the extern as a vector.",
-                        "name": "color",
-                        "type": "table"
-                    }, {
-                        "description": "Additional colors to send in case the extern is an array. All colors need to be of the same size (e.g. only vec3's).",
-                        "name": "...",
-                        "type": "table"
-                    }]
-                }]
-            }],
-            "name": "Shader",
-            "supertypes": ["Object"]
-        }, {
-            "constructors": ["newSpriteBatch"],
-            "description": "Using a single image, draw any number of identical copies of the image using a single call to love.graphics.draw. This can be used, for example, to draw repeating copies of a single background image.\n\nA SpriteBatch can be even more useful when the underlying image is a Texture Atlas (a single image file containing many independent images); by adding Quad to the batch, different sub-images from within the atlas can be drawn.",
-            "functions": [{
-                "description": "Add a sprite to the batch.",
-                "name": "add",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The position to draw the object (x-axis).",
-                        "name": "x",
-                        "type": "number"
-                    }, {
-                        "description": "The position to draw the object (y-axis).",
-                        "name": "y",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Orientation (radians).",
-                        "name": "r",
-                        "type": "number"
-                    }, {
-                        "default": "1",
-                        "description": "Scale factor (x-axis).",
-                        "name": "sx",
-                        "type": "number"
-                    }, {
-                        "default": "sx",
-                        "description": "Scale factor (y-axis).",
-                        "name": "sy",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Origin offset (x-axis).",
-                        "name": "ox",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Origin offset (y-axis).",
-                        "name": "oy",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Shear factor (x-axis).",
-                        "name": "kx",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Shear factor (y-axis).",
-                        "name": "ky",
-                        "type": "number"
-                    }],
-                    "returns": [{
-                        "description": "An identifier for the added sprite.",
-                        "name": "id",
-                        "type": "number"
-                    }]
-                }, {
-                    "arguments": [{
-                        "description": "The Quad to add.",
-                        "name": "quad",
-                        "type": "Quad"
-                    }, {
-                        "description": "The position to draw the object (x-axis).",
-                        "name": "x",
-                        "type": "number"
-                    }, {
-                        "description": "The position to draw the object (y-axis).",
-                        "name": "y",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Orientation (radians).",
-                        "name": "r",
-                        "type": "number"
-                    }, {
-                        "default": "1",
-                        "description": "Scale factor (x-axis).",
-                        "name": "sx",
-                        "type": "number"
-                    }, {
-                        "default": "sx",
-                        "description": "Scale factor (y-axis).",
-                        "name": "sy",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Origin offset (x-axis).",
-                        "name": "ox",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Origin offset (y-axis).",
-                        "name": "oy",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Shear factor (x-axis).",
-                        "name": "kx",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Shear factor (y-axis).",
-                        "name": "ky",
-                        "type": "number"
-                    }],
-                    "returns": [{
-                        "description": "An identifier for the added sprite.",
-                        "name": "id",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Attaches a per-vertex attribute from a Mesh onto this SpriteBatch, for use when drawing. This can be combined with a Shader to augment a SpriteBatch with per-vertex or additional per-sprite information instead of just having per-sprite colors.\n\nEach sprite in a SpriteBatch has 4 vertices in the following order: top-left, bottom-left, top-right, bottom-right. The index returned by SpriteBatch:add (and used by SpriteBatch:set) can be multiplied by 4 to determine the first vertex in a specific sprite.",
-                "name": "attachAttribute",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The name of the vertex attribute to attach.",
-                        "name": "name",
-                        "type": "string"
-                    }, {
-                        "description": "The Mesh to get the vertex attribute from.",
-                        "name": "mesh",
-                        "type": "Mesh"
-                    }]
-                }]
-            }, {
-                "description": "Removes all sprites from the buffer.",
-                "name": "clear",
-                "variants": [[]]
-            }, {
-                "description": "Immediately sends all new and modified sprite data in the batch to the graphics card.",
-                "name": "flush",
-                "variants": [[]]
-            }, {
-                "description": "Gets the maximum number of sprites the SpriteBatch can hold.",
-                "name": "getBufferSize",
-                "variants": [{
-                    "returns": [{
-                        "description": "The maximum number of sprites the batch can hold.",
-                        "name": "size",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Gets the color that will be used for the next add and set operations.\n\nIf no color has been set with SpriteBatch:setColor or the current SpriteBatch color has been cleared, this method will return nil.",
-                "name": "getColor",
-                "variants": [{
-                    "returns": [{
-                        "description": "The red component (0-255).",
-                        "name": "r",
-                        "type": "number"
-                    }, {
-                        "description": "The green component (0-255).",
-                        "name": "g",
-                        "type": "number"
-                    }, {
-                        "description": "The blue component (0-255).",
-                        "name": "b",
-                        "type": "number"
-                    }, {
-                        "description": "The alpha component (0-255).",
-                        "name": "a",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Gets the amount of sprites currently in the SpriteBatch.",
-                "name": "getCount",
-                "variants": [{
-                    "returns": [{
-                        "description": "The amount of sprites currently in the batch.",
-                        "name": "count",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Returns the Image or Canvas used by the SpriteBatch.",
-                "name": "getTexture",
-                "variants": [{
-                    "returns": [{
-                        "description": "The Image or Canvas for the sprites.",
-                        "name": "texture",
-                        "type": "Texture"
-                    }]
-                }]
-            }, {
-                "description": "Changes a sprite in the batch. This requires the identifier returned by add and addq.",
-                "name": "set",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The identifier of the sprite that will be changed.",
-                        "name": "id",
-                        "type": "number"
-                    }, {
-                        "description": "The position to draw the object (x-axis).",
-                        "name": "x",
-                        "type": "number"
-                    }, {
-                        "description": "The position to draw the object (y-axis).",
-                        "name": "y",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Orientation (radians).",
-                        "name": "r",
-                        "type": "number"
-                    }, {
-                        "default": "1",
-                        "description": "Scale factor (x-axis).",
-                        "name": "sx",
-                        "type": "number"
-                    }, {
-                        "default": "sx",
-                        "description": "Scale factor (y-axis).",
-                        "name": "sy",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Origin offset (x-axis).",
-                        "name": "ox",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Origin offset (y-axis).",
-                        "name": "oy",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Shear factor (x-axis).",
-                        "name": "kx",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Shear factor (y-axis).",
-                        "name": "ky",
-                        "type": "number"
-                    }]
-                }, {
-                    "arguments": [{
-                        "description": "The identifier of the sprite that will be changed.",
-                        "name": "id",
-                        "type": "number"
-                    }, {
-                        "description": "The quad used on the image of the batch.",
-                        "name": "quad",
-                        "type": "Quad"
-                    }, {
-                        "description": "The position to draw the object (x-axis).",
-                        "name": "x",
-                        "type": "number"
-                    }, {
-                        "description": "The position to draw the object (y-axis).",
-                        "name": "y",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Orientation (radians).",
-                        "name": "r",
-                        "type": "number"
-                    }, {
-                        "default": "1",
-                        "description": "Scale factor (x-axis).",
-                        "name": "sx",
-                        "type": "number"
-                    }, {
-                        "default": "sx",
-                        "description": "Scale factor (y-axis).",
-                        "name": "sy",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Origin offset (x-axis).",
-                        "name": "ox",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Origin offset (y-axis).",
-                        "name": "oy",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Shear factor (x-axis).",
-                        "name": "kx",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Shear factor (y-axis).",
-                        "name": "ky",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Sets the maximum number of sprites the SpriteBatch can hold. Existing sprites in the batch (up to the new maximum) will not be cleared when this function is called.",
-                "name": "setBufferSize",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The new maximum number of sprites the batch can hold.",
-                        "name": "size",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Sets the color that will be used for the next add and set operations. Calling the function without arguments will clear the color.\n\nIn version [[0.9.2]] and older, the global color set with love.graphics.setColor will not work on the SpriteBatch if any of the sprites has its own color.",
-                "name": "setColor",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The amount of red.",
-                        "name": "r",
-                        "type": "number"
-                    }, {
-                        "description": "The amount of green.",
-                        "name": "g",
-                        "type": "number"
-                    }, {
-                        "description": "The amount of blue.",
-                        "name": "b",
-                        "type": "number"
-                    }, {
-                        "default": "255",
-                        "description": "The amount of alpha.",
-                        "name": "a",
-                        "type": "number"
-                    }]
-                }, {
-                    "description": "Disables all per-sprite colors for this SpriteBatch."
-                }]
-            }, {
-                "description": "Replaces the Image or Canvas used for the sprites.",
-                "name": "setTexture",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The new Image or Canvas to use for the sprites.",
-                        "name": "texture",
-                        "type": "Texture"
-                    }]
-                }]
-            }],
-            "name": "SpriteBatch",
-            "supertypes": ["Drawable", "Object"]
-        }, {
             "constructors": ["newText"],
             "description": "Drawable text.",
             "functions": [{
@@ -7792,7 +6271,7 @@ export let api = {
             "subtypes": ["Canvas", "Image"],
             "supertypes": ["Drawable", "Object"]
         }, {
-            "constructors": ["newVideo"],
+            "constructors": ["_newVideo"],
             "description": "A drawable video.",
             "functions": [{
                 "description": "Gets the width and height of the Video in pixels.",
@@ -8520,37 +6999,6 @@ export let api = {
             "name": "GamepadButton"
         }, {
             "constants": [{
-                "description": "Centered",
-                "name": "c"
-            }, {
-                "description": "Down",
-                "name": "d"
-            }, {
-                "description": "Left",
-                "name": "l"
-            }, {
-                "description": "Left+Down",
-                "name": "ld"
-            }, {
-                "description": "Left+Up",
-                "name": "lu"
-            }, {
-                "description": "Right",
-                "name": "r"
-            }, {
-                "description": "Right+Down",
-                "name": "rd"
-            }, {
-                "description": "Right+Up",
-                "name": "ru"
-            }, {
-                "description": "Up",
-                "name": "u"
-            }],
-            "description": "Joystick hat positions.",
-            "name": "JoystickHat"
-        }, {
-            "constants": [{
                 "description": "Analog axis.",
                 "name": "axis"
             }, {
@@ -8584,96 +7032,35 @@ export let api = {
                 }]
             }]
         }, {
-            "description": "Loads a gamepad mappings string or file created with love.joystick.saveGamepadMappings.",
-            "name": "loadGamepadMappings",
+            "description": "Splits a joycon pair into two. Switch only",
+            "name": "split",
             "variants": [{
                 "arguments": [{
-                    "description": "The filename to load the mappings string from.",
-                    "name": "filename",
-                    "type": "string"
-                }]
-            }, {
-                "arguments": [{
-                    "description": "The mappings string to load.",
-                    "name": "mappings",
-                    "type": "string"
-                }]
-            }]
-        }, {
-            "description": "Saves the virtual gamepad mappings of all Joysticks that are recognized as gamepads and have either been recently used or their gamepad bindings have been modified.",
-            "name": "saveGamepadMappings",
-            "variants": [{
-                "arguments": [{
-                    "description": "The filename to save the mappings string to.",
-                    "name": "filename",
-                    "type": "string"
+                    "description": "The joycon pair to split.",
+                    "name": "joyconPair",
+                    "type": "Joystick"
                 }],
                 "returns": [{
-                    "description": "The mappings string that was written to the file.",
-                    "name": "mappings",
-                    "type": "string"
-                }]
-            }, {
-                "returns": [{
-                    "description": "The mappings string.",
-                    "name": "mappings",
-                    "type": "string"
-                }]
-            }]
-        }, {
-            "description": "Binds a virtual gamepad input to a button, axis or hat for all Joysticks of a certain type. For example, if this function is used with a GUID returned by a Dualshock 3 controller in OS X, the binding will affect Joystick:getGamepadAxis and Joystick:isGamepadDown for all Dualshock 3 controllers used with the game when run in OS X.\n\nLÖVE includes built-in gamepad bindings for many common controllers. This function lets you change the bindings or add new ones for types of Joysticks which aren't recognized as gamepads by default.\n\nThe virtual gamepad buttons and axes are designed around the Xbox 360 controller layout.",
-            "name": "setGamepadMapping",
-            "variants": [{
-                "arguments": [{
-                    "description": "The OS-dependent GUID for the type of Joystick the binding will affect.",
-                    "name": "guid",
-                    "type": "string"
-                }, {
-                    "description": "The virtual gamepad button to bind.",
-                    "name": "button",
-                    "type": "GamepadButton"
-                }, {
-                    "description": "The type of input to bind the virtual gamepad button to.",
-                    "name": "inputtype",
-                    "type": "JoystickInputType"
-                }, {
-                    "description": "The index of the axis, button, or hat to bind the virtual gamepad button to.",
-                    "name": "inputindex",
-                    "type": "number"
-                }, {
-                    "description": "The direction of the hat, if the virtual gamepad button will be bound to a hat. nil otherwise.",
-                    "name": "hatdirection",
-                    "type": "JoystickHat"
-                }],
-                "returns": [{
-                    "description": "Whether the virtual gamepad button was successfully bound.",
+                    "description": "Whether spliting the pair was successful.",
                     "name": "success",
                     "type": "boolean"
                 }]
-            }, {
+            }]
+        }, {
+            "description": "Merges two separate joycon into one. Switch only",
+            "name": "merge",
+            "variants": [{
                 "arguments": [{
-                    "description": "The OS-dependent GUID for the type of Joystick the binding will affect.",
-                    "name": "guid",
-                    "type": "string"
+                    "description": "The first joycon to merge.",
+                    "name": "joyconA",
+                    "type": "Joystick"
                 }, {
-                    "description": "The virtual gamepad axis to bind.",
-                    "name": "button",
-                    "type": "GamepadButton"
-                }, {
-                    "description": "The type of input to bind the virtual gamepad axis to.",
-                    "name": "inputtype",
-                    "type": "JoystickInputType"
-                }, {
-                    "description": "The index of the axis, button, or hat to bind the virtual gamepad axis to.",
-                    "name": "inputindex",
-                    "type": "number"
-                }, {
-                    "description": "The direction of the hat, if the virtual gamepad axis will be bound to a hat. nil otherwise.",
-                    "name": "hatdirection",
-                    "type": "JoystickHat"
+                    "description": "The second joycon to merge.",
+                    "name": "joyconB",
+                    "type": "Joystick"
                 }],
                 "returns": [{
-                    "description": "Whether the virtual gamepad button was successfully bound.",
+                    "description": "Whether merging the joycons was successful.",
                     "name": "success",
                     "type": "boolean"
                 }]
@@ -8737,16 +7124,6 @@ export let api = {
                     }]
                 }]
             }, {
-                "description": "Gets a stable GUID unique to the type of the physical joystick which does not change over time. For example, all Sony Dualshock 3 controllers in OS X have the same GUID. The value is platform-dependent.",
-                "name": "getGUID",
-                "variants": [{
-                    "returns": [{
-                        "description": "The Joystick type's OS-dependent unique identifier.",
-                        "name": "guid",
-                        "type": "string"
-                    }]
-                }]
-            }, {
                 "description": "Gets the direction of a virtual gamepad axis. If the Joystick isn't recognized as a gamepad or isn't connected, this function will always return 0.",
                 "name": "getGamepadAxis",
                 "variants": [{
@@ -8758,73 +7135,6 @@ export let api = {
                     "returns": [{
                         "description": "Current value of the axis.",
                         "name": "direction",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Gets the button, axis or hat that a virtual gamepad input is bound to.",
-                "name": "getGamepadMapping",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The virtual gamepad axis to get the binding for.",
-                        "name": "axis",
-                        "type": "GamepadAxis"
-                    }],
-                    "returns": [{
-                        "description": "The type of input the virtual gamepad axis is bound to.",
-                        "name": "inputtype",
-                        "type": "JoystickInputType"
-                    }, {
-                        "description": "The index of the Joystick's button, axis or hat that the virtual gamepad axis is bound to.",
-                        "name": "inputindex",
-                        "type": "number"
-                    }, {
-                        "description": "The direction of the hat, if the virtual gamepad axis is bound to a hat. nil otherwise.",
-                        "name": "hatdirection",
-                        "type": "JoystickHat"
-                    }]
-                }, {
-                    "arguments": [{
-                        "description": "The virtual gamepad button to get the binding for.",
-                        "name": "button",
-                        "type": "GamepadAxis"
-                    }],
-                    "returns": [{
-                        "description": "The type of input the virtual gamepad button is bound to.",
-                        "name": "inputtype",
-                        "type": "JoystickInputType"
-                    }, {
-                        "description": "The index of the Joystick's button, axis or hat that the virtual gamepad button is bound to.",
-                        "name": "inputindex",
-                        "type": "number"
-                    }, {
-                        "description": "The direction of the hat, if the virtual gamepad button is bound to a hat. nil otherwise.",
-                        "name": "hatdirection",
-                        "type": "JoystickHat"
-                    }]
-                }]
-            }, {
-                "description": "Gets the direction of the Joystick's hat.",
-                "name": "getHat",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The index of the hat to be checked.",
-                        "name": "hat",
-                        "type": "number"
-                    }],
-                    "returns": [{
-                        "description": "The direction the hat is pushed.",
-                        "name": "direction",
-                        "type": "JoystickHat"
-                    }]
-                }]
-            }, {
-                "description": "Gets the number of hats on the joystick.",
-                "name": "getHatCount",
-                "variants": [{
-                    "returns": [{
-                        "description": "How many hats the joystick has.",
-                        "name": "hats",
                         "type": "number"
                     }]
                 }]
@@ -8978,1170 +7288,43 @@ export let api = {
         "description": "Provides an interface to the user's keyboard.",
         "enums": [{
             "constants": [{
-                "description": "The A key",
-                "name": "a"
+                "description": "All character and numbers allowed.",
+                "name": "normal"
             }, {
-                "description": "The B key",
-                "name": "b"
+                "description": "QWERTY only.",
+                "name": "qwerty"
             }, {
-                "description": "The C key",
-                "name": "c"
-            }, {
-                "description": "The D key",
-                "name": "d"
-            }, {
-                "description": "The E key",
-                "name": "e"
-            }, {
-                "description": "The F key",
-                "name": "f"
-            }, {
-                "description": "The G key",
-                "name": "g"
-            }, {
-                "description": "The H key",
-                "name": "h"
-            }, {
-                "description": "The I key",
-                "name": "i"
-            }, {
-                "description": "The J key",
-                "name": "j"
-            }, {
-                "description": "The K key",
-                "name": "k"
-            }, {
-                "description": "The L key",
-                "name": "l"
-            }, {
-                "description": "The M key",
-                "name": "m"
-            }, {
-                "description": "The N key",
-                "name": "n"
-            }, {
-                "description": "The O key",
-                "name": "o"
-            }, {
-                "description": "The P key",
-                "name": "p"
-            }, {
-                "description": "The Q key",
-                "name": "q"
-            }, {
-                "description": "The R key",
-                "name": "r"
-            }, {
-                "description": "The S key",
-                "name": "s"
-            }, {
-                "description": "The T key",
-                "name": "t"
-            }, {
-                "description": "The U key",
-                "name": "u"
-            }, {
-                "description": "The V key",
-                "name": "v"
-            }, {
-                "description": "The W key",
-                "name": "w"
-            }, {
-                "description": "The X key",
-                "name": "x"
-            }, {
-                "description": "The Y key",
-                "name": "y"
-            }, {
-                "description": "The Z key",
-                "name": "z"
-            }, {
-                "description": "The zero key",
-                "name": "0"
-            }, {
-                "description": "The one key",
-                "name": "1"
-            }, {
-                "description": "The two key",
-                "name": "2"
-            }, {
-                "description": "The three key",
-                "name": "3"
-            }, {
-                "description": "The four key",
-                "name": "4"
-            }, {
-                "description": "The five key",
-                "name": "5"
-            }, {
-                "description": "The six key",
-                "name": "6"
-            }, {
-                "description": "The seven key",
-                "name": "7"
-            }, {
-                "description": "The eight key",
-                "name": "8"
-            }, {
-                "description": "The nine key",
-                "name": "9"
-            }, {
-                "description": "Space key",
-                "name": "space",
-                "notes": "In version 0.9.2 and earlier this is represented by the actual space character"
-            }, {
-                "description": "Exclamation mark key",
-                "name": "!"
-            }, {
-                "description": "Double quote key",
-                "name": "\""
-            }, {
-                "description": "Hash key",
-                "name": "#"
-            }, {
-                "description": "Dollar key",
-                "name": "$"
-            }, {
-                "description": "Ampersand key",
-                "name": "&"
-            }, {
-                "description": "Single quote key",
-                "name": "'"
-            }, {
-                "description": "Left parenthesis key",
-                "name": "("
-            }, {
-                "description": "Right parenthesis key",
-                "name": ")"
-            }, {
-                "description": "Asterisk key",
-                "name": "*"
-            }, {
-                "description": "Plus key",
-                "name": "+"
-            }, {
-                "description": "Comma key",
-                "name": ","
-            }, {
-                "description": "Hyphen-minus key",
-                "name": "-"
-            }, {
-                "description": "Full stop key",
-                "name": "."
-            }, {
-                "description": "Slash key",
-                "name": "/"
-            }, {
-                "description": "Colon key",
-                "name": ":"
-            }, {
-                "description": "Semicolon key",
-                "name": ";"
-            }, {
-                "description": "Less-than key",
-                "name": "<"
-            }, {
-                "description": "Equal key",
-                "name": "="
-            }, {
-                "description": "Greater-than key",
-                "name": ">"
-            }, {
-                "description": "Question mark key",
-                "name": "?"
-            }, {
-                "description": "At sign key",
-                "name": "@"
-            }, {
-                "description": "Left square bracket key",
-                "name": "["
-            }, {
-                "description": "Backslash key",
-                "name": "\\"
-            }, {
-                "description": "Right square bracket key",
-                "name": "]"
-            }, {
-                "description": "Caret key",
-                "name": "^"
-            }, {
-                "description": "Underscore key",
-                "name": "_"
-            }, {
-                "description": "Grave accent key",
-                "name": "`",
-                "notes": "Also known as the \"Back tick\" key"
-            }, {
-                "description": "The numpad zero key",
-                "name": "kp0"
-            }, {
-                "description": "The numpad one key",
-                "name": "kp1"
-            }, {
-                "description": "The numpad two key",
-                "name": "kp2"
-            }, {
-                "description": "The numpad three key",
-                "name": "kp3"
-            }, {
-                "description": "The numpad four key",
-                "name": "kp4"
-            }, {
-                "description": "The numpad five key",
-                "name": "kp5"
-            }, {
-                "description": "The numpad six key",
-                "name": "kp6"
-            }, {
-                "description": "The numpad seven key",
-                "name": "kp7"
-            }, {
-                "description": "The numpad eight key",
-                "name": "kp8"
-            }, {
-                "description": "The numpad nine key",
-                "name": "kp9"
-            }, {
-                "description": "The numpad decimal point key",
-                "name": "kp."
-            }, {
-                "description": "The numpad division key",
-                "name": "kp/"
-            }, {
-                "description": "The numpad multiplication key",
-                "name": "kp*"
-            }, {
-                "description": "The numpad substraction key",
-                "name": "kp-"
-            }, {
-                "description": "The numpad addition key",
-                "name": "kp+"
-            }, {
-                "description": "The numpad enter key",
-                "name": "kpenter"
-            }, {
-                "description": "The numpad equals key",
-                "name": "kp="
-            }, {
-                "description": "Up cursor key",
-                "name": "up"
-            }, {
-                "description": "Down cursor key",
-                "name": "down"
-            }, {
-                "description": "Right cursor key",
-                "name": "right"
-            }, {
-                "description": "Left cursor key",
-                "name": "left"
-            }, {
-                "description": "Home key",
-                "name": "home"
-            }, {
-                "description": "End key",
-                "name": "end"
-            }, {
-                "description": "Page up key",
-                "name": "pageup"
-            }, {
-                "description": "Page down key",
-                "name": "pagedown"
-            }, {
-                "description": "Insert key",
-                "name": "insert"
-            }, {
-                "description": "Backspace key",
-                "name": "backspace"
-            }, {
-                "description": "Tab key",
-                "name": "tab"
-            }, {
-                "description": "Clear key",
-                "name": "clear"
-            }, {
-                "description": "Return key",
-                "name": "return",
-                "notes": "Also known as the Enter key"
-            }, {
-                "description": "Delete key",
-                "name": "delete"
-            }, {
-                "description": "The 1st function key",
-                "name": "f1"
-            }, {
-                "description": "The 2nd function key",
-                "name": "f2"
-            }, {
-                "description": "The 3rd function key",
-                "name": "f3"
-            }, {
-                "description": "The 4th function key",
-                "name": "f4"
-            }, {
-                "description": "The 5th function key",
-                "name": "f5"
-            }, {
-                "description": "The 6th function key",
-                "name": "f6"
-            }, {
-                "description": "The 7th function key",
-                "name": "f7"
-            }, {
-                "description": "The 8th function key",
-                "name": "f8"
-            }, {
-                "description": "The 9th function key",
-                "name": "f9"
-            }, {
-                "description": "The 10th function key",
-                "name": "f10"
-            }, {
-                "description": "The 11th function key",
-                "name": "f11"
-            }, {
-                "description": "The 12th function key",
-                "name": "f12"
-            }, {
-                "description": "The 13th function key",
-                "name": "f13"
-            }, {
-                "description": "The 14th function key",
-                "name": "f14"
-            }, {
-                "description": "The 15th function key",
-                "name": "f15"
-            }, {
-                "description": "Num-lock key",
-                "name": "numlock"
-            }, {
-                "description": "Caps-lock key",
-                "name": "capslock",
-                "notes": "Caps-on is a key press. Caps-off is a key release."
-            }, {
-                "description": "Scroll-lock key",
-                "name": "scrollock"
-            }, {
-                "description": "Right shift key",
-                "name": "rshift"
-            }, {
-                "description": "Left shift key",
-                "name": "lshift"
-            }, {
-                "description": "Right control key",
-                "name": "rctrl"
-            }, {
-                "description": "Left control key",
-                "name": "lctrl"
-            }, {
-                "description": "Right alt key",
-                "name": "ralt"
-            }, {
-                "description": "Left alt key",
-                "name": "lalt"
-            }, {
-                "description": "Right meta key",
-                "name": "rmeta"
-            }, {
-                "description": "Left meta key",
-                "name": "lmeta"
-            }, {
-                "description": "Left super key",
-                "name": "lsuper"
-            }, {
-                "description": "Right super key",
-                "name": "rsuper"
-            }, {
-                "description": "Mode key",
-                "name": "mode"
-            }, {
-                "description": "Compose key",
-                "name": "compose"
-            }, {
-                "description": "Pause key",
-                "name": "pause"
-            }, {
-                "description": "Escape key",
-                "name": "escape"
-            }, {
-                "description": "Help key",
-                "name": "help"
-            }, {
-                "description": "Print key",
-                "name": "print"
-            }, {
-                "description": "System request key",
-                "name": "sysreq"
-            }, {
-                "description": "Break key",
-                "name": "break"
-            }, {
-                "description": "Menu key",
-                "name": "menu"
-            }, {
-                "description": "Power key",
-                "name": "power"
-            }, {
-                "description": "Euro (&euro;) key",
-                "name": "euro"
-            }, {
-                "description": "Undo key",
-                "name": "undo"
-            }, {
-                "description": "WWW key",
-                "name": "www"
-            }, {
-                "description": "Mail key",
-                "name": "mail"
-            }, {
-                "description": "Calculator key",
-                "name": "calculator"
-            }, {
-                "description": "Application search key",
-                "name": "appsearch"
-            }, {
-                "description": "Application home key",
-                "name": "apphome"
-            }, {
-                "description": "Application back key",
-                "name": "appback"
-            }, {
-                "description": "Application forward key",
-                "name": "appforward"
-            }, {
-                "description": "Application refresh key",
-                "name": "apprefresh"
-            }, {
-                "description": "Application bookmarks key",
-                "name": "appbookmarks"
+                "description": "numbers only.",
+                "name": "numpad"
             }],
-            "description": "All the keys you can press. Note that some keys may not be available on your keyboard or system.",
-            "name": "KeyConstant"
-        }, {
-            "constants": [{
-                "description": "The 'A' key on an American layout.",
-                "name": "a"
-            }, {
-                "description": "The 'B' key on an American layout.",
-                "name": "b"
-            }, {
-                "description": "The 'C' key on an American layout.",
-                "name": "c"
-            }, {
-                "description": "The 'D' key on an American layout.",
-                "name": "d"
-            }, {
-                "description": "The 'E' key on an American layout.",
-                "name": "e"
-            }, {
-                "description": "The 'F' key on an American layout.",
-                "name": "f"
-            }, {
-                "description": "The 'G' key on an American layout.",
-                "name": "g"
-            }, {
-                "description": "The 'H' key on an American layout.",
-                "name": "h"
-            }, {
-                "description": "The 'I' key on an American layout.",
-                "name": "i"
-            }, {
-                "description": "The 'J' key on an American layout.",
-                "name": "j"
-            }, {
-                "description": "The 'K' key on an American layout.",
-                "name": "k"
-            }, {
-                "description": "The 'L' key on an American layout.",
-                "name": "l"
-            }, {
-                "description": "The 'M' key on an American layout.",
-                "name": "m"
-            }, {
-                "description": "The 'N' key on an American layout.",
-                "name": "n"
-            }, {
-                "description": "The 'O' key on an American layout.",
-                "name": "o"
-            }, {
-                "description": "The 'P' key on an American layout.",
-                "name": "p"
-            }, {
-                "description": "The 'Q' key on an American layout.",
-                "name": "q"
-            }, {
-                "description": "The 'R' key on an American layout.",
-                "name": "r"
-            }, {
-                "description": "The 'S' key on an American layout.",
-                "name": "s"
-            }, {
-                "description": "The 'T' key on an American layout.",
-                "name": "t"
-            }, {
-                "description": "The 'U' key on an American layout.",
-                "name": "u"
-            }, {
-                "description": "The 'V' key on an American layout.",
-                "name": "v"
-            }, {
-                "description": "The 'W' key on an American layout.",
-                "name": "w"
-            }, {
-                "description": "The 'X' key on an American layout.",
-                "name": "x"
-            }, {
-                "description": "The 'Y' key on an American layout.",
-                "name": "y"
-            }, {
-                "description": "The 'Z' key on an American layout.",
-                "name": "z"
-            }, {
-                "description": "The '1' key on an American layout.",
-                "name": "1"
-            }, {
-                "description": "The '2' key on an American layout.",
-                "name": "2"
-            }, {
-                "description": "The '3' key on an American layout.",
-                "name": "3"
-            }, {
-                "description": "The '4' key on an American layout.",
-                "name": "4"
-            }, {
-                "description": "The '5' key on an American layout.",
-                "name": "5"
-            }, {
-                "description": "The '6' key on an American layout.",
-                "name": "6"
-            }, {
-                "description": "The '7' key on an American layout.",
-                "name": "7"
-            }, {
-                "description": "The '8' key on an American layout.",
-                "name": "8"
-            }, {
-                "description": "The '9' key on an American layout.",
-                "name": "9"
-            }, {
-                "description": "The '0' key on an American layout.",
-                "name": "0"
-            }, {
-                "description": "The 'return' / 'enter' key on an American layout.",
-                "name": "return"
-            }, {
-                "description": "The 'escape' key on an American layout.",
-                "name": "escape"
-            }, {
-                "description": "The 'backspace' key on an American layout.",
-                "name": "backspace"
-            }, {
-                "description": "The 'tab' key on an American layout.",
-                "name": "tab"
-            }, {
-                "description": "The spacebar on an American layout.",
-                "name": "space"
-            }, {
-                "description": "The minus key on an American layout.",
-                "name": "-"
-            }, {
-                "description": "The equals key on an American layout.",
-                "name": "="
-            }, {
-                "description": "The left-bracket key on an American layout.",
-                "name": "["
-            }, {
-                "description": "The right-bracket key on an American layout.",
-                "name": "]"
-            }, {
-                "description": "The backslash key on an American layout.",
-                "name": "\\"
-            }, {
-                "description": "The non-U.S. hash scancode.",
-                "name": "nonus#"
-            }, {
-                "description": "The semicolon key on an American layout.",
-                "name": ";"
-            }, {
-                "description": "The apostrophe key on an American layout.",
-                "name": "'"
-            }, {
-                "description": "The back-tick / grave key on an American layout.",
-                "name": "`"
-            }, {
-                "description": "The comma key on an American layout.",
-                "name": ","
-            }, {
-                "description": "The period key on an American layout.",
-                "name": "."
-            }, {
-                "description": "The forward-slash key on an American layout.",
-                "name": "/"
-            }, {
-                "description": "The capslock key on an American layout.",
-                "name": "capslock"
-            }, {
-                "description": "The F1 key on an American layout.",
-                "name": "f1"
-            }, {
-                "description": "The F2 key on an American layout.",
-                "name": "f2"
-            }, {
-                "description": "The F3 key on an American layout.",
-                "name": "f3"
-            }, {
-                "description": "The F4 key on an American layout.",
-                "name": "f4"
-            }, {
-                "description": "The F5 key on an American layout.",
-                "name": "f5"
-            }, {
-                "description": "The F6 key on an American layout.",
-                "name": "f6"
-            }, {
-                "description": "The F7 key on an American layout.",
-                "name": "f7"
-            }, {
-                "description": "The F8 key on an American layout.",
-                "name": "f8"
-            }, {
-                "description": "The F9 key on an American layout.",
-                "name": "f9"
-            }, {
-                "description": "The F10 key on an American layout.",
-                "name": "f10"
-            }, {
-                "description": "The F11 key on an American layout.",
-                "name": "f11"
-            }, {
-                "description": "The F12 key on an American layout.",
-                "name": "f12"
-            }, {
-                "description": "The F13 key on an American layout.",
-                "name": "f13"
-            }, {
-                "description": "The F14 key on an American layout.",
-                "name": "f14"
-            }, {
-                "description": "The F15 key on an American layout.",
-                "name": "f15"
-            }, {
-                "description": "The F16 key on an American layout.",
-                "name": "f16"
-            }, {
-                "description": "The F17 key on an American layout.",
-                "name": "f17"
-            }, {
-                "description": "The F18 key on an American layout.",
-                "name": "f18"
-            }, {
-                "description": "The F19 key on an American layout.",
-                "name": "f19"
-            }, {
-                "description": "The F20 key on an American layout.",
-                "name": "f20"
-            }, {
-                "description": "The F21 key on an American layout.",
-                "name": "f21"
-            }, {
-                "description": "The F22 key on an American layout.",
-                "name": "f22"
-            }, {
-                "description": "The F23 key on an American layout.",
-                "name": "f23"
-            }, {
-                "description": "The F24 key on an American layout.",
-                "name": "f24"
-            }, {
-                "description": "The left control key on an American layout.",
-                "name": "lctrl"
-            }, {
-                "description": "The left shift key on an American layout.",
-                "name": "lshift"
-            }, {
-                "description": "The left alt / option key on an American layout.",
-                "name": "lalt"
-            }, {
-                "description": "The left GUI (command / windows / super) key on an American layout.",
-                "name": "lgui"
-            }, {
-                "description": "The right control key on an American layout.",
-                "name": "rctrl"
-            }, {
-                "description": "The right shift key on an American layout.",
-                "name": "rshift"
-            }, {
-                "description": "The right alt / option key on an American layout.",
-                "name": "ralt"
-            }, {
-                "description": "The right GUI (command / windows / super) key on an American layout.",
-                "name": "rgui"
-            }, {
-                "description": "The printscreen key on an American layout.",
-                "name": "printscreen"
-            }, {
-                "description": "The scroll-lock key on an American layout.",
-                "name": "scrolllock"
-            }, {
-                "description": "The pause key on an American layout.",
-                "name": "pause"
-            }, {
-                "description": "The insert key on an American layout.",
-                "name": "insert"
-            }, {
-                "description": "The home key on an American layout.",
-                "name": "home"
-            }, {
-                "description": "The numlock / clear key on an American layout.",
-                "name": "numlock"
-            }, {
-                "description": "The page-up key on an American layout.",
-                "name": "pageup"
-            }, {
-                "description": "The forward-delete key on an American layout.",
-                "name": "delete"
-            }, {
-                "description": "The end key on an American layout.",
-                "name": "end"
-            }, {
-                "description": "The page-down key on an American layout.",
-                "name": "pagedown"
-            }, {
-                "description": "The right-arrow key on an American layout.",
-                "name": "right"
-            }, {
-                "description": "The left-arrow key on an American layout.",
-                "name": "left"
-            }, {
-                "description": "The down-arrow key on an American layout.",
-                "name": "down"
-            }, {
-                "description": "The up-arrow key on an American layout.",
-                "name": "up"
-            }, {
-                "description": "The non-U.S. backslash scancode.",
-                "name": "nonusbackslash"
-            }, {
-                "description": "The application key on an American layout. Windows contextual menu, compose key.",
-                "name": "application"
-            }, {
-                "description": "The 'execute' key on an American layout.",
-                "name": "execute"
-            }, {
-                "description": "The 'help' key on an American layout.",
-                "name": "help"
-            }, {
-                "description": "The 'menu' key on an American layout.",
-                "name": "menu"
-            }, {
-                "description": "The 'select' key on an American layout.",
-                "name": "select"
-            }, {
-                "description": "The 'stop' key on an American layout.",
-                "name": "stop"
-            }, {
-                "description": "The 'again' key on an American layout.",
-                "name": "again"
-            }, {
-                "description": "The 'undo' key on an American layout.",
-                "name": "undo"
-            }, {
-                "description": "The 'cut' key on an American layout.",
-                "name": "cut"
-            }, {
-                "description": "The 'copy' key on an American layout.",
-                "name": "copy"
-            }, {
-                "description": "The 'paste' key on an American layout.",
-                "name": "paste"
-            }, {
-                "description": "The 'find' key on an American layout.",
-                "name": "find"
-            }, {
-                "description": "The keypad forward-slash key on an American layout.",
-                "name": "kp/"
-            }, {
-                "description": "The keypad '*' key on an American layout.",
-                "name": "kp*"
-            }, {
-                "description": "The keypad minus key on an American layout.",
-                "name": "kp-"
-            }, {
-                "description": "The keypad plus key on an American layout.",
-                "name": "kp+"
-            }, {
-                "description": "The keypad equals key on an American layout.",
-                "name": "kp="
-            }, {
-                "description": "The keypad enter key on an American layout.",
-                "name": "kpenter"
-            }, {
-                "description": "The keypad '1' key on an American layout.",
-                "name": "kp1"
-            }, {
-                "description": "The keypad '2' key on an American layout.",
-                "name": "kp2"
-            }, {
-                "description": "The keypad '3' key on an American layout.",
-                "name": "kp3"
-            }, {
-                "description": "The keypad '4' key on an American layout.",
-                "name": "kp4"
-            }, {
-                "description": "The keypad '5' key on an American layout.",
-                "name": "kp5"
-            }, {
-                "description": "The keypad '6' key on an American layout.",
-                "name": "kp6"
-            }, {
-                "description": "The keypad '7' key on an American layout.",
-                "name": "kp7"
-            }, {
-                "description": "The keypad '8' key on an American layout.",
-                "name": "kp8"
-            }, {
-                "description": "The keypad '9' key on an American layout.",
-                "name": "kp9"
-            }, {
-                "description": "The keypad '0' key on an American layout.",
-                "name": "kp0"
-            }, {
-                "description": "The keypad period key on an American layout.",
-                "name": "kp."
-            }, {
-                "description": "The 1st international key on an American layout. Used on Asian keyboards.",
-                "name": "international1"
-            }, {
-                "description": "The 2nd international key on an American layout.",
-                "name": "international2"
-            }, {
-                "description": "The 3rd international key on an American layout. Yen.",
-                "name": "international3"
-            }, {
-                "description": "The 4th international key on an American layout.",
-                "name": "international4"
-            }, {
-                "description": "The 5th international key on an American layout.",
-                "name": "international5"
-            }, {
-                "description": "The 6th international key on an American layout.",
-                "name": "international6"
-            }, {
-                "description": "The 7th international key on an American layout.",
-                "name": "international7"
-            }, {
-                "description": "The 8th international key on an American layout.",
-                "name": "international8"
-            }, {
-                "description": "The 9th international key on an American layout.",
-                "name": "international9"
-            }, {
-                "description": "Hangul/English toggle scancode.",
-                "name": "lang1"
-            }, {
-                "description": "Hanja conversion scancode.",
-                "name": "lang2"
-            }, {
-                "description": "Katakana scancode.",
-                "name": "lang3"
-            }, {
-                "description": "Hiragana scancode.",
-                "name": "lang4"
-            }, {
-                "description": "Zenkaku/Hankaku scancode.",
-                "name": "lang5"
-            }, {
-                "description": "The mute key on an American layout.",
-                "name": "mute"
-            }, {
-                "description": "The volume up key on an American layout.",
-                "name": "volumeup"
-            }, {
-                "description": "The volume down key on an American layout.",
-                "name": "volumedown"
-            }, {
-                "description": "The audio next track key on an American layout.",
-                "name": "audionext"
-            }, {
-                "description": "The audio previous track key on an American layout.",
-                "name": "audioprev"
-            }, {
-                "description": "The audio stop key on an American layout.",
-                "name": "audiostop"
-            }, {
-                "description": "The audio play key on an American layout.",
-                "name": "audioplay"
-            }, {
-                "description": "The audio mute key on an American layout.",
-                "name": "audiomute"
-            }, {
-                "description": "The media select key on an American layout.",
-                "name": "mediaselect"
-            }, {
-                "description": "The 'WWW' key on an American layout.",
-                "name": "www"
-            }, {
-                "description": "The Mail key on an American layout.",
-                "name": "mail"
-            }, {
-                "description": "The calculator key on an American layout.",
-                "name": "calculator"
-            }, {
-                "description": "The 'computer' key on an American layout.",
-                "name": "computer"
-            }, {
-                "description": "The AC Search key on an American layout.",
-                "name": "acsearch"
-            }, {
-                "description": "The AC Home key on an American layout.",
-                "name": "achome"
-            }, {
-                "description": "The AC Back key on an American layout.",
-                "name": "acback"
-            }, {
-                "description": "The AC Forward key on an American layout.",
-                "name": "acforward"
-            }, {
-                "description": "Th AC Stop key on an American layout.",
-                "name": "acstop"
-            }, {
-                "description": "The AC Refresh key on an American layout.",
-                "name": "acrefresh"
-            }, {
-                "description": "The AC Bookmarks key on an American layout.",
-                "name": "acbookmarks"
-            }, {
-                "description": "The system power scancode.",
-                "name": "power"
-            }, {
-                "description": "The brightness-down scancode.",
-                "name": "brightnessdown"
-            }, {
-                "description": "The brightness-up scancode.",
-                "name": "brightnessup"
-            }, {
-                "description": "The display switch scancode.",
-                "name": "displayswitch"
-            }, {
-                "description": "The keyboard illumination toggle scancode.",
-                "name": "kbdillumtoggle"
-            }, {
-                "description": "The keyboard illumination down scancode.",
-                "name": "kbdillumdown"
-            }, {
-                "description": "The keyboard illumination up scancode.",
-                "name": "kbdillumup"
-            }, {
-                "description": "The eject scancode.",
-                "name": "eject"
-            }, {
-                "description": "The system sleep scancode.",
-                "name": "sleep"
-            }, {
-                "description": "The alt-erase key on an American layout.",
-                "name": "alterase"
-            }, {
-                "description": "The sysreq key on an American layout.",
-                "name": "sysreq"
-            }, {
-                "description": "The 'cancel' key on an American layout.",
-                "name": "cancel"
-            }, {
-                "description": "The 'clear' key on an American layout.",
-                "name": "clear"
-            }, {
-                "description": "The 'prior' key on an American layout.",
-                "name": "prior"
-            }, {
-                "description": "The 'return2' key on an American layout.",
-                "name": "return2"
-            }, {
-                "description": "The 'separator' key on an American layout.",
-                "name": "separator"
-            }, {
-                "description": "The 'out' key on an American layout.",
-                "name": "out"
-            }, {
-                "description": "The 'oper' key on an American layout.",
-                "name": "oper"
-            }, {
-                "description": "The 'clearagain' key on an American layout.",
-                "name": "clearagain"
-            }, {
-                "description": "The 'crsel' key on an American layout.",
-                "name": "crsel"
-            }, {
-                "description": "The 'exsel' key on an American layout.",
-                "name": "exsel"
-            }, {
-                "description": "The keypad 00 key on an American layout.",
-                "name": "kp00"
-            }, {
-                "description": "The keypad 000 key on an American layout.",
-                "name": "kp000"
-            }, {
-                "description": "The thousands-separator key on an American layout.",
-                "name": "thsousandsseparator"
-            }, {
-                "description": "The decimal separator key on an American layout.",
-                "name": "decimalseparator"
-            }, {
-                "description": "The currency unit key on an American layout.",
-                "name": "currencyunit"
-            }, {
-                "description": "The currency sub-unit key on an American layout.",
-                "name": "currencysubunit"
-            }, {
-                "description": "The 'app1' scancode.",
-                "name": "app1"
-            }, {
-                "description": "The 'app2' scancode.",
-                "name": "app2"
-            }, {
-                "description": "An unknown key.",
-                "name": "unknown"
-            }],
-            "description": "Keyboard scancodes.\n\nScancodes are keyboard layout-independent, so the scancode \"w\" will be generated if the key in the same place as the \"w\" key on an American QWERTY keyboard is pressed, no matter what the key is labelled or what the user's operating system settings are.\n\nUsing scancodes, rather than keycodes, is useful because keyboards with layouts differing from the US/UK layout(s) might have keys that generate 'unknown' keycodes, but the scancodes will still be detected. This however would necessitate having a list for each keyboard layout one would choose to support.\n\nOne could use textinput or textedited instead, but those only give back the end result of keys used, i.e. you can't get modifiers on their own from it, only the final symbols that were generated.",
-            "name": "Scancode"
+            "description": "The keyboard type for text input.",
+            "name": "KeyboardType"
         }],
         "functions": [{
-            "description": "Gets the key corresponding to the given hardware scancode.\n\nUnlike key constants, Scancodes are keyboard layout-independent. For example the scancode \"w\" will be generated if the key in the same place as the \"w\" key on an American keyboard is pressed, no matter what the key is labelled or what the user's operating system settings are.\n\nScancodes are useful for creating default controls that have the same physical locations on on all systems.",
-            "name": "getKeyFromScancode",
-            "variants": [{
-                "arguments": [{
-                    "description": "The scancode to get the key from.",
-                    "name": "scancode",
-                    "type": "Scancode"
-                }],
-                "returns": [{
-                    "description": "The key corresponding to the given scancode, or \"unknown\" if the scancode doesn't map to a KeyConstant on the current system.",
-                    "name": "key",
-                    "type": "KeyConstant"
-                }]
-            }]
-        }, {
-            "description": "Gets the hardware scancode corresponding to the given key.\n\nUnlike key constants, Scancodes are keyboard layout-independent. For example the scancode \"w\" will be generated if the key in the same place as the \"w\" key on an American keyboard is pressed, no matter what the key is labelled or what the user's operating system settings are.\n\nScancodes are useful for creating default controls that have the same physical locations on on all systems.",
-            "name": "getScancodeFromKey",
-            "variants": [{
-                "arguments": [{
-                    "description": "The key to get the scancode from.",
-                    "name": "key",
-                    "type": "KeyConstant"
-                }],
-                "returns": [{
-                    "description": "The scancode corresponding to the given key, or \"unknown\" if the given key has no known physical representation on the current system.",
-                    "name": "scancode",
-                    "type": "Scancode"
-                }]
-            }]
-        }, {
-            "description": "Gets whether key repeat is enabled.",
-            "name": "hasKeyRepeat",
-            "variants": [{
-                "returns": [{
-                    "description": "Whether key repeat is enabled.",
-                    "name": "enabled",
-                    "type": "boolean"
-                }]
-            }]
-        }, {
-            "description": "Gets whether text input events are enabled.",
-            "name": "hasTextInput",
-            "variants": [{
-                "returns": [{
-                    "description": "Whether text input events are enabled.",
-                    "name": "enabled",
-                    "type": "boolean"
-                }]
-            }]
-        }, {
-            "description": "Checks whether a certain key is down. Not to be confused with love.keypressed or love.keyreleased.",
-            "name": "isDown",
-            "variants": [{
-                "arguments": [{
-                    "description": "The key to check.",
-                    "name": "key",
-                    "type": "KeyConstant"
-                }],
-                "returns": [{
-                    "description": "True if the key is down, false if not.",
-                    "name": "down",
-                    "type": "boolean"
-                }]
-            }, {
-                "arguments": [{
-                    "description": "A key to check.",
-                    "name": "key",
-                    "type": "KeyConstant"
-                }, {
-                    "description": "Additional keys to check.",
-                    "name": "...",
-                    "type": "KeyConstant"
-                }],
-                "returns": [{
-                    "description": "True if any supplied key is down, false if not.",
-                    "name": "anyDown",
-                    "type": "boolean"
-                }]
-            }]
-        }, {
-            "description": "Checks whether the specified Scancodes are pressed. Not to be confused with love.keypressed or love.keyreleased.\n\nUnlike regular KeyConstants, Scancodes are keyboard layout-independent. The scancode \"w\" is used if the key in the same place as the \"w\" key on an American keyboard is pressed, no matter what the key is labelled or what the user's operating system settings are.",
-            "name": "isScancodeDown",
-            "variants": [{
-                "arguments": [{
-                    "description": "A Scancode to check.",
-                    "name": "scancode",
-                    "type": "Scancode"
-                }, {
-                    "description": "Additional Scancodes to check.",
-                    "name": "...",
-                    "type": "Scancode"
-                }],
-                "returns": [{
-                    "description": "True if any supplied Scancode is down, false if not.",
-                    "name": "down",
-                    "type": "boolean"
-                }]
-            }]
-        }, {
-            "description": "Enables or disables key repeat. It is disabled by default.\n\nThe interval between repeats depends on the user's system settings.",
-            "name": "setKeyRepeat",
-            "variants": [{
-                "arguments": [{
-                    "description": "Whether repeat keypress events should be enabled when a key is held down.",
-                    "name": "enable",
-                    "type": "boolean"
-                }]
-            }]
-        }, {
             "description": "Enables or disables text input events. It is enabled by default on Windows, Mac, and Linux, and disabled by default on iOS and Android.",
             "name": "setTextInput",
             "variants": [{
                 "arguments": [{
                     "description": "Whether text input events should be enabled.",
-                    "name": "enable",
-                    "type": "boolean"
-                }]
-            }, {
-                "arguments": [{
-                    "description": "Whether text input events should be enabled.",
-                    "name": "enable",
-                    "type": "boolean"
-                }, {
-                    "description": "On-screen keyboard x position.",
-                    "name": "x",
-                    "type": "number"
-                }, {
-                    "description": "On-screen keyboard y position.",
-                    "name": "y",
-                    "type": "number"
-                }, {
-                    "description": "On-screen keyboard width.",
-                    "name": "w",
-                    "type": "number"
-                }, {
-                    "description": "On-screen keyboard height.",
-                    "name": "h",
-                    "type": "number"
+                    "name": "options",
+                    "table": [{
+                        "description": "The keyboard type.",
+                        "name": "type",
+                        "type": "KeyboardType"
+                    }, {
+                        "description": "Whether this should be a password fielded input.",
+                        "name": "password",
+                        "type": "boolean"
+                    }, {
+                        "description": "custom hint text.",
+                        "name": "hint",
+                        "type": "string"
+                    }, {
+                        "description": "Max length of input text.",
+                        "name": "maxLength",
+                        "type": "number"
+                    }],
+                    "type": "table"
                 }]
             }]
         }],
@@ -10163,94 +7346,85 @@ export let api = {
             "name": "CompressedDataFormat"
         }],
         "functions": [{
-            "description": "Compresses a string or data using a specific compression algorithm.",
-            "name": "compress",
+            "description": "Converts a color from 0 ~ 255 to 0 ~ 1 range.",
+            "name": "colorFromBytes",
             "variants": [{
                 "arguments": [{
-                    "description": "The raw (un-compressed) string to compress.",
-                    "name": "rawstring",
-                    "type": "string"
+                    "description": "The red channel in 0..255 range to convert.",
+                    "name": "rb",
+                    "type": "number"
                 }, {
-                    "default": "\"lz4\"",
-                    "description": "The format to use when compressing the string.",
-                    "name": "format",
-                    "type": "CompressedDataFormat"
+                    "description": "The green channel in 0..255 range to convert.",
+                    "name": "gb",
+                    "type": "number"
                 }, {
-                    "default": "-1",
-                    "description": "The level of compression to use, between 0 and 9. -1 indicates the default level. The meaning of this argument depends on the compression format being used.",
-                    "name": "level",
+                    "description": "The blue channel in 0..255 range to convert.",
+                    "name": "bb",
+                    "type": "number"
+                }, {
+                    "default": "nil",
+                    "description": "The alpha channel in 0..255 range to convert.",
+                    "name": "ab",
                     "type": "number"
                 }],
                 "returns": [{
-                    "description": "A new Data object containing the compressed version of the string.",
-                    "name": "compressedData",
-                    "type": "CompressedData"
-                }]
-            }, {
-                "arguments": [{
-                    "description": "A Data object containing the raw (un-compressed) data to compress.",
-                    "name": "data",
-                    "type": "Data"
-                }, {
-                    "default": "\"lz4\"",
-                    "description": "The format to use when compressing the data.",
-                    "name": "format",
-                    "type": "CompressedDataFormat"
-                }, {
-                    "default": "-1",
-                    "description": "The level of compression to use, between 0 and 9. -1 indicates the default level. The meaning of this argument depends on the compression format being used.",
-                    "name": "level",
+                    "description": "The red channel of the converted color in 0..1 range.",
+                    "name": "r",
                     "type": "number"
-                }],
-                "returns": [{
-                    "description": "A new Data object containing the compressed version of the raw data.",
-                    "name": "compressedData",
-                    "type": "CompressedData"
+                }, {
+                    "description": "The green channel of the converted color in 0..1 range.",
+                    "name": "g",
+                    "type": "number"
+                }, {
+                    "description": "The blue channel of the converted color in 0..1 range.",
+                    "name": "b",
+                    "type": "number"
+                }, {
+                    "default": "nil",
+                    "description": "The alpha channel of the converted color in 0..1 range.",
+                    "name": "a",
+                    "type": "number"
                 }]
             }]
         }, {
-            "description": "Decompresses a CompressedData or previously compressed string or Data object.",
-            "name": "decompress",
+            "description": "Converts a color from 0 ~ 1 to 0 ~ 255 range.",
+            "name": "colorToBytes",
             "variants": [{
                 "arguments": [{
-                    "description": "The compressed data to decompress.",
-                    "name": "compressedData",
-                    "type": "CompressedData"
-                }],
-                "returns": [{
-                    "description": "A string containing the raw decompressed data.",
-                    "name": "rawstring",
-                    "type": "string"
-                }]
-            }, {
-                "arguments": [{
-                    "description": "A string containing data previously compressed with love.math.compress.",
-                    "name": "compressedString",
-                    "type": "string"
+                    "description": "The red channel of the RGBA color to convert.",
+                    "name": "r",
+                    "type": "number"
                 }, {
-                    "description": "The format that was used to compress the given string.",
-                    "name": "format",
-                    "type": "CompressedDataFormat"
-                }],
-                "returns": [{
-                    "description": "A string containing the raw decompressed data.",
-                    "name": "rawstring",
-                    "type": "string"
-                }]
-            }, {
-                "arguments": [{
-                    "description": "A Data object containing data previously compressed with love.math.compress.",
-                    "name": "data",
-                    "type": "Data"
+                    "description": "The green channel of the RGBA color to convert.",
+                    "name": "g",
+                    "type": "number"
                 }, {
-                    "description": "The format that was used to compress the given data.",
-                    "name": "format",
-                    "type": "CompressedDataFormat"
+                    "description": "The blue channel of the RGBA color to convert.",
+                    "name": "b",
+                    "type": "number"
+                }, {
+                    "default": "nil",
+                    "description": "The alpha channel of the RGBA color to convert.",
+                    "name": "a",
+                    "type": "number"
                 }],
                 "returns": [{
-                    "description": "A string containing the raw decompressed data.",
-                    "name": "rawstring",
-                    "type": "string"
+                    "description": "The red channel of the converted color in 0..255 range.",
+                    "name": "rb",
+                    "type": "number"
+                }, {
+                    "description": "The green channel of the converted color in 0..255 range.",
+                    "name": "gb",
+                    "type": "number"
+                }, {
+                    "description": "The blue channel of the converted color in 0..255 range.",
+                    "name": "bb",
+                    "type": "number"
+                }, {
+                    "default": "nil",
+                    "description": "The alpha channel of the converted color in 0..255 range.",
+                    "name": "ab",
+                    "type": "number"
                 }]
             }]
         }, {
@@ -10447,56 +7621,6 @@ export let api = {
                     "description": "The value of the color channel in gamma sRGB space.",
                     "name": "c",
                     "type": "number"
-                }]
-            }]
-        }, {
-            "description": "Creates a new BezierCurve object.\n\nThe number of vertices in the control polygon determines the degree of the curve, e.g. three vertices define a quadratic (degree 2) Bézier curve, four vertices define a cubic (degree 3) Bézier curve, etc.",
-            "name": "newBezierCurve",
-            "variants": [{
-                "arguments": [{
-                    "description": "The vertices of the control polygon as a table in the form of {x1, y1, x2, y2, x3, y3, ...}.",
-                    "name": "vertices",
-                    "type": "table"
-                }],
-                "returns": [{
-                    "description": "A Bézier curve object.",
-                    "name": "curve",
-                    "type": "BezierCurve"
-                }]
-            }, {
-                "arguments": [{
-                    "description": "The position of the first vertex of the control polygon on the x-axis.",
-                    "name": "x1",
-                    "type": "number"
-                }, {
-                    "description": "The position of the first vertex of the control polygon on the y-axis.",
-                    "name": "y1",
-                    "type": "number"
-                }, {
-                    "description": "The position of the second vertex of the control polygon on the x-axis.",
-                    "name": "x2",
-                    "type": "number"
-                }, {
-                    "description": "The position of the second vertex of the control polygon on the y-axis.",
-                    "name": "y2",
-                    "type": "number"
-                }, {
-                    "description": "The position of the third vertex of the control polygon on the x-axis.",
-                    "name": "x3",
-                    "type": "number"
-                }, {
-                    "description": "The position of the third vertex of the control polygon on the y-axis.",
-                    "name": "y3",
-                    "type": "number"
-                }, {
-                    "description": "Additional vertices.",
-                    "name": "...",
-                    "type": "number"
-                }],
-                "returns": [{
-                    "description": "A Bézier curve object.",
-                    "name": "curve",
-                    "type": "BezierCurve"
                 }]
             }]
         }, {
@@ -10752,256 +7876,6 @@ export let api = {
         }],
         "name": "math",
         "types": [{
-            "constructors": ["newBezierCurve"],
-            "description": "A Bézier curve object that can evaluate and render Bézier curves of arbitrary degree.",
-            "functions": [{
-                "description": "Evaluate Bézier curve at parameter t. The parameter must be between 0 and 1 (inclusive).\n\nThis function can be used to move objects along paths or tween parameters. However it should not be used to render the curve, see BezierCurve:render for that purpose.",
-                "name": "evalulate",
-                "variants": [{
-                    "arguments": [{
-                        "description": "Where to evaluate the curve.",
-                        "name": "t",
-                        "type": "number"
-                    }],
-                    "returns": [{
-                        "description": "x coordinate of the curve at parameter t.",
-                        "name": "x",
-                        "type": "number"
-                    }, {
-                        "description": "y coordinate of the curve at parameter t.",
-                        "name": "y",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Get coordinates of the i-th control point. Indices start with 1.",
-                "name": "getControlPoint",
-                "variants": [{
-                    "arguments": [{
-                        "description": "Index of the control point.",
-                        "name": "i",
-                        "type": "number"
-                    }],
-                    "returns": [{
-                        "description": "Position of the control point along the x axis.",
-                        "name": "x",
-                        "type": "number"
-                    }, {
-                        "description": "Position of the control point along the y axis.",
-                        "name": "y",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Get the number of control points in the Bézier curve.",
-                "name": "getControlPointCount",
-                "variants": [{
-                    "returns": [{
-                        "description": "The number of control points.",
-                        "name": "count",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Get degree of the Bézier curve. The degree is equal to number-of-control-points - 1.",
-                "name": "getDegree",
-                "variants": [{
-                    "returns": [{
-                        "description": "Degree of the Bézier curve.",
-                        "name": "degree",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Get the derivative of the Bézier curve.\n\nThis function can be used to rotate sprites moving along a curve in the direction of the movement and compute the direction perpendicular to the curve at some parameter t.",
-                "name": "getDerivative",
-                "variants": [{
-                    "returns": [{
-                        "description": "The derivative curve.",
-                        "name": "derivative",
-                        "type": "BezierCurve"
-                    }]
-                }]
-            }, {
-                "description": "Gets a BezierCurve that corresponds to the specified segment of this BezierCurve.",
-                "name": "getSegment",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The starting point along the curve. Must be between 0 and 1.",
-                        "name": "startpoint",
-                        "type": "number"
-                    }, {
-                        "description": "The end of the segment. Must be between 0 and 1.",
-                        "name": "endpoint",
-                        "type": "number"
-                    }],
-                    "returns": [{
-                        "description": "A BezierCurve that corresponds to the specified segment.",
-                        "name": "curve",
-                        "type": "BezierCurve"
-                    }]
-                }]
-            }, {
-                "description": "Insert control point after the i-th control point. Indices start with 1. Negative indices wrap around: -1 is the last control point, -2 the one before the last, etc.",
-                "name": "insertControlPoint",
-                "variants": [{
-                    "arguments": [{
-                        "description": "Position of the control point along the x axis.",
-                        "name": "x",
-                        "type": "number"
-                    }, {
-                        "description": "Position of the control point along the y axis.",
-                        "name": "y",
-                        "type": "number"
-                    }, {
-                        "default": "-1",
-                        "description": "Index of the control point.",
-                        "name": "i",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Removes the specified control point.",
-                "name": "removeControlPoint",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The index of the control point to remove.",
-                        "name": "index",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Get a list of coordinates to be used with love.graphics.line.\n\nThis function samples the Bézier curve using recursive subdivision. You can control the recursion depth using the depth parameter.\n\nIf you are just interested to know the position on the curve given a parameter, use BezierCurve:evalulate.",
-                "name": "render",
-                "variants": [{
-                    "arguments": [{
-                        "default": "5",
-                        "description": "Number of recursive subdivision steps.",
-                        "name": "depth",
-                        "type": "number"
-                    }],
-                    "returns": [{
-                        "description": "List of x,y-coordinate pairs of points on the curve.",
-                        "name": "coordinates",
-                        "type": "table"
-                    }]
-                }]
-            }, {
-                "description": "Get a list of coordinates on a specific part of the curve, to be used with love.graphics.line.\n\nThis function samples the Bézier curve using recursive subdivision. You can control the recursion depth using the depth parameter.\n\nIf you are just need to know the position on the curve given a parameter, use BezierCurve:evaluate.",
-                "name": "renderSegment",
-                "variants": [{
-                    "arguments": [{
-                        "description": "The starting point along the curve. Must be between 0 and 1.",
-                        "name": "startpoint",
-                        "type": "number"
-                    }, {
-                        "description": "The end of the segment to render. Must be between 0 and 1.",
-                        "name": "endpoint",
-                        "type": "number"
-                    }, {
-                        "default": "5",
-                        "description": "Number of recursive subdivision steps.",
-                        "name": "depth",
-                        "type": "number"
-                    }],
-                    "returns": [{
-                        "description": "List of x,y-coordinate pairs of points on the curve.",
-                        "name": "coordinates",
-                        "type": "table"
-                    }]
-                }]
-            }, {
-                "description": "Rotate the Bézier curve by an angle.",
-                "name": "rotate",
-                "variants": [{
-                    "arguments": [{
-                        "description": "Rotation angle in radians.",
-                        "name": "angle",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "X coordinate of the rotation center.",
-                        "name": "ox",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Y coordinate of the rotation center.",
-                        "name": "oy",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Scale the Bézier curve by a factor.",
-                "name": "scale",
-                "variants": [{
-                    "arguments": [{
-                        "description": "Scale factor.",
-                        "name": "s",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "X coordinate of the scaling center.",
-                        "name": "ox",
-                        "type": "number"
-                    }, {
-                        "default": "0",
-                        "description": "Y coordinate of the scaling center.",
-                        "name": "oy",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Set coordinates of the i-th control point. Indices start with 1.",
-                "name": "setControlPoint",
-                "variants": [{
-                    "arguments": [{
-                        "description": "Index of the control point.",
-                        "name": "i",
-                        "type": "number"
-                    }, {
-                        "description": "Position of the control point along the x axis.",
-                        "name": "ox",
-                        "type": "number"
-                    }, {
-                        "description": "Position of the control point along the y axis.",
-                        "name": "oy",
-                        "type": "number"
-                    }]
-                }]
-            }, {
-                "description": "Move the Bézier curve by an offset.",
-                "name": "translate",
-                "variants": [{
-                    "arguments": [{
-                        "description": "Offset along the x axis.",
-                        "name": "dx",
-                        "type": "number"
-                    }, {
-                        "description": "Offset along the y axis.",
-                        "name": "dy",
-                        "type": "number"
-                    }]
-                }]
-            }],
-            "name": "BezierCurve",
-            "supertypes": ["Object"]
-        }, {
-            "constructors": ["compress"],
-            "description": "Represents byte data compressed using a specific algorithm.\n\nlove.math.decompress can be used to de-compress the data.",
-            "functions": [{
-                "description": "Gets the compression format of the CompressedData.",
-                "name": "getFormat",
-                "variants": [{
-                    "returns": [{
-                        "description": "The format of the CompressedData.",
-                        "name": "format",
-                        "type": "CompressedDataFormat"
-                    }]
-                }]
-            }],
-            "name": "CompressedData",
-            "supertypes": ["Data", "Object"]
-        }, {
             "constructors": ["newRandomGenerator"],
             "description": "A random number generation object which has its own random state.",
             "functions": [{
@@ -15782,6 +12656,26 @@ export let api = {
             "constructors": ["newDecoder"],
             "description": "An object which can gradually decode a sound file.",
             "functions": [{
+                "description": "Create new copy of existing Decoder. The new decoder will start decoding from the beginning of the audio stream.",
+                "name": "clone",
+                "variants": [{
+                    "returns": [{
+                        "description": "New copy of the decoder.",
+                        "name": "decoder",
+                        "type": "Decoder"
+                    }]
+                }]
+            }, {
+                "description": "Decodes a chunk of audio data to a SoundData.",
+                "name": "decode",
+                "variants": [{
+                    "returns": [{
+                        "description": "Decoded audio data.",
+                        "name": "soundData",
+                        "type": "SoundData"
+                    }]
+                }]
+            }, {
                 "description": "Returns the number of bits per sample.",
                 "name": "getBitDepth",
                 "variants": [{
@@ -15793,7 +12687,7 @@ export let api = {
                 }]
             }, {
                 "description": "Returns the number of channels in the stream.",
-                "name": "getChannels",
+                "name": "getChannelCount",
                 "variants": [{
                     "returns": [{
                         "description": "1 for mono, 2 for stereo.",
@@ -15821,6 +12715,16 @@ export let api = {
                         "type": "number"
                     }]
                 }]
+            }, {
+                "description": "Sets the currently playing position of the Decoder.",
+                "name": "seek",
+                "variants": [{
+                    "arguments": [{
+                        "description": "The position to seek to, in seconds.",
+                        "name": "offset",
+                        "type": "number"
+                    }]
+                }]
             }],
             "name": "Decoder",
             "supertypes": ["Object"]
@@ -15828,6 +12732,16 @@ export let api = {
             "constructors": ["newSoundData"],
             "description": "Contains raw audio samples. You can not play SoundData back directly. You must wrap a Source object around it.",
             "functions": [{
+                "description": "Create new copy of existing SoundData.",
+                "name": "clone",
+                "variants": [{
+                    "returns": [{
+                        "description": "New copy of the sound data.",
+                        "name": "soundData",
+                        "type": "SoundData"
+                    }]
+                }]
+            }, {
                 "description": "Returns the number of bits per sample.",
                 "name": "getBitDepth",
                 "variants": [{
@@ -15931,25 +12845,62 @@ export let api = {
             }],
             "description": "The basic state of the system's power supply.",
             "name": "PowerState"
+        }, {
+            "constants": [{
+                "description": "Cannot determine network status.",
+                "name": "unknown"
+            }, {
+                "description": "Connected to the internet.",
+                "name": "connected"
+            }, {
+                "description": "No internet connection.",
+                "name": "disconnected"
+            }],
+            "description": "The system's internet status.",
+            "name": "NetworkState"
         }],
         "functions": [{
-            "description": "Gets text from the clipboard.",
-            "name": "getClipboardText",
+            "description": "Gets the current system firmware version.",
+            "name": "getVersion",
             "variants": [{
                 "returns": [{
-                    "description": "The text currently held in the system's clipboard.",
-                    "name": "text",
+                    "description": "The current system firmware version.",
+                    "name": "version",
                     "type": "string"
                 }]
             }]
         }, {
-            "description": "Gets the current operating system. In general, LÖVE abstracts away the need to know the current operating system, but there are a few cases where it can be useful (especially in combination with os.execute.)",
+            "description": "Gets the current console model.",
+            "name": "getModel",
+            "variants": [{
+                "returns": [{
+                    "description": "The current console model. \"N3DSXL\", \"3DS\", \"Mariko\", or \"Erista\".",
+                    "name": "model",
+                    "type": "string"
+                }]
+            }]
+        }, {
+            "description": "Gets the current operating system.",
             "name": "getOS",
             "variants": [{
                 "returns": [{
-                    "description": "The current operating system. \"OS X\", \"Windows\", \"Linux\", \"Android\" or \"iOS\".",
+                    "description": "The current operating system. \"Horizon\" or \"Cafe\".",
                     "name": "osString",
                     "type": "string"
+                }]
+            }]
+        }, {
+            "description": "Gets information about the system's internet status.",
+            "name": "getNetworkInfo",
+            "variants": [{
+                "returns": [{
+                    "description": "The system's internet status.",
+                    "name": "state",
+                    "type": "NetworkState"
+                }, {
+                    "description": "Strength of the Wifi.",
+                    "name": "signal",
+                    "type": "number"
                 }]
             }]
         }, {
@@ -15964,55 +12915,95 @@ export let api = {
                     "description": "Percentage of battery life left, between 0 and 100. nil if the value can't be determined or there's no battery.",
                     "name": "percent",
                     "type": "number"
-                }, {
-                    "description": "Seconds of battery life left. nil if the value can't be determined or there's no battery.",
-                    "name": "seconds",
-                    "type": "number"
                 }]
             }]
         }, {
-            "description": "Gets the number of CPU cores in the system.\n\nThe number includes the threads reported if technologies such as Intel's Hyper-threading are enabled. For example, on a 4-core CPU with Hyper-threading, this function will return 8.",
+            "description": "Gets the amount of logical processors in the system.",
             "name": "getProcessorCount",
             "variants": [{
                 "returns": [{
-                    "description": "Gets the number of CPU cores in the system.",
-                    "name": "cores",
+                    "description": "The amount of logical processors in the system.",
+                    "name": "logicalProcessors",
                     "type": "number"
                 }]
             }]
         }, {
-            "description": "Opens a URL with the user's web or file browser.",
-            "name": "openURL",
+            "description": "Gets preferred locales in order of user's preference.",
+            "name": "getPreferredLocales",
             "variants": [{
-                "arguments": [{
-                    "description": "The URL to open. Must be formatted as a proper URL.\n\nTo open a file or folder, \"file://\" must be prepended to the path.",
-                    "name": "url",
-                    "type": "string"
-                }],
                 "returns": [{
-                    "description": "Whether the URL was opened successfully.",
-                    "name": "success",
-                    "type": "boolean"
+                    "description": "A sequence of strings in order of user's preference. Locales are in form xx_YY (or just xx when country is not available) where xx is an ISO-639 language specifier and YY is an ISO-3166 country code",
+                    "name": "locales",
+                    "type": "table"
                 }]
             }]
         }, {
-            "description": "Puts text in the clipboard.",
-            "name": "setClipboardText",
+            "description": "Gets the current set region on the console",
+            "name": "getRegion",
             "variants": [{
-                "arguments": [{
-                    "description": "The new text to hold in the system's clipboard.",
-                    "name": "text",
+                "returns": [{
+                    "description": "The current set region on the console",
+                    "name": "region",
                     "type": "string"
                 }]
             }]
         }, {
-            "description": "Causes the device to vibrate, if possible. Currently this will only work on Android and iOS devices that have a built-in vibration motor.",
-            "name": "vibrate",
+            "description": "Gets the current username on the console (or app). On Switch, this is determined per-app due to the way games launch with multiple accounts.",
+            "name": "getUsername",
+            "variants": [{
+                "returns": [{
+                    "description": "The current username on the console (or app)",
+                    "name": "username",
+                    "type": "string"
+                }]
+            }]
+        }, {
+            "description": "Gets the current system firmware version.",
+            "name": "getVersion",
+            "variants": [{
+                "returns": [{
+                    "description": "The current system firmware version.",
+                    "name": "version",
+                    "type": "string"
+                }]
+            }]
+        }, {
+            "description": "Gets the current color theme on the system.",
+            "name": "getColorTheme",
+            "variants": [{
+                "returns": [{
+                    "description": "The current color theme on the system.",
+                    "name": "colorTheme",
+                    "type": "string"
+                }]
+            }]
+        }, {
+            "description": "Gets the friend code of the current user.",
+            "name": "getFriendCode",
+            "variants": [{
+                "returns": [{
+                    "description": "The friend code of the current user.",
+                    "name": "friendCode",
+                    "type": "string"
+                }]
+            }]
+        }, {
+            "description": "Gets the current amount of Play Coins on the system. Nintendo 3DS only.",
+            "name": "getPlayCoins",
+            "variants": [{
+                "returns": [{
+                    "description": "The current amount of Play Coins on the system.",
+                    "name": "playCoins",
+                    "type": "number"
+                }]
+            }]
+        }, {
+            "description": "Sets the current amount of Play Coins on the system. Nintendo 3DS only. This function is absolute and not additive! Be aware!",
+            "name": "setPlayCoins",
             "variants": [{
                 "arguments": [{
-                    "default": "0.5",
-                    "description": "The duration to vibrate for. If called on an iOS device, it will always vibrate for 0.5 seconds due to limitations in the iOS system APIs.",
-                    "name": "seconds",
+                    "description": "What to set the amount of Play Coins to.",
+                    "name": "playCoins",
                     "type": "number"
                 }]
             }]
@@ -16375,95 +13366,14 @@ export let api = {
         }]
     }, {
         "description": "Provides an interface for modifying and retrieving information about the program's window.",
-        "enums": [{
-            "constants": [{
-                "description": "Sometimes known as borderless fullscreen windowed mode. A borderless screen-sized window is created which sits on top of all desktop UI elements. The window is automatically resized to match the dimensions of the desktop, and its size cannot be changed.",
-                "name": "desktop"
-            }, {
-                "description": "Standard exclusive-fullscreen mode. Changes the display mode (actual resolution) of the monitor.",
-                "name": "exclusive"
-            }],
-            "description": "Types of fullscreen modes.\n\nIn normal fullscreen mode, if a window size is used which does not match one of the monitor's supported display modes, the window will be resized to the next largest display mode.\n\nNormal fullscreen mode is sometimes avoided by users because it can cause issues in some window managers and with multi-monitor setups. In OS X it prevents switching to a different program until fullscreen mode is exited. The \"desktop\" fullscreen mode generally avoids these issues.",
-            "name": "FullscreenType"
-        }, {
-            "constants": [{
-                "description": "Informational dialog.",
-                "name": "info"
-            }, {
-                "description": "Warning dialog.",
-                "name": "warning"
-            }, {
-                "description": "Error dialog.",
-                "name": "error"
-            }],
-            "description": "Types of message box dialogs. Different types may have slightly different looks.",
-            "name": "MessageBoxType"
-        }],
         "functions": [{
-            "description": "Closes the window. It can be reopened with love.window.setMode.",
-            "name": "close",
-            "variants": [[]]
-        }, {
-            "description": "Converts a number from pixels to density-independent units.\n\nThe pixel density inside the window might be greater (or smaller) than the \"size\" of the window. For example on a retina screen in Mac OS X with the highdpi window flag enabled, the window may take up the same physical size as an 800x600 window, but the area inside the window uses 1600x1200 pixels. love.window.fromPixels(1600) would return 800 in that case.\n\nThis function converts coordinates from pixels to the size users are expecting them to display at onscreen. love.window.toPixels does the opposite. The highdpi window flag must be enabled to use the full pixel density of a Retina screen on Mac OS X and iOS. The flag currently does nothing on Windows and Linux, and on Android it is effectively always enabled.\n\nMost LÖVE functions return values and expect arguments in terms of pixels rather than density-independent units.",
-            "name": "fromPixels",
-            "variants": [{
-                "arguments": [{
-                    "description": "A number in pixels to convert to density-independent units.",
-                    "name": "pixelvalue",
-                    "type": "number"
-                }],
-                "returns": [{
-                    "description": "The converted number, in density-independent units.",
-                    "name": "value",
-                    "type": "number"
-                }]
-            }, {
-                "arguments": [{
-                    "description": "The x-axis value of a coordinate in pixels.",
-                    "name": "px",
-                    "type": "number"
-                }, {
-                    "description": "The y-axis value of a coordinate in pixels.",
-                    "name": "py",
-                    "type": "number"
-                }],
-                "returns": [{
-                    "description": "The converted x-axis value of the coordinate, in density-independent units.",
-                    "name": "x",
-                    "type": "number"
-                }, {
-                    "description": "The converted y-axis value of the coordinate, in density-independent units.",
-                    "name": "y",
-                    "type": "number"
-                }]
-            }]
-        }, {
-            "description": "Gets the name of a display.",
-            "name": "getDisplayName",
-            "variants": [{
-                "arguments": [{
-                    "description": "The index of the display to get the name of.",
-                    "name": "displayindex",
-                    "type": "number"
-                }],
-                "returns": [{
-                    "description": "The name of the specified display.",
-                    "name": "name",
-                    "type": "string"
-                }]
-            }]
-        }, {
-            "description": "Gets whether the window is fullscreen.",
-            "name": "getFullscreen",
+            "description": "Gets the number of screens.",
+            "name": "getDisplayCount",
             "variants": [{
                 "returns": [{
-                    "description": "True if the window is fullscreen, false otherwise.",
-                    "name": "fullscreen",
-                    "type": "boolean"
-                }, {
-                    "description": "The type of fullscreen mode used.",
-                    "name": "fstype",
-                    "type": "FullscreenType"
+                    "description": "The number of screens.",
+                    "name": "count",
+                    "type": "number"
                 }]
             }]
         }, {
@@ -16483,169 +13393,6 @@ export let api = {
                 }]
             }]
         }, {
-            "description": "Gets the window icon.",
-            "name": "getIcon",
-            "variants": [{
-                "returns": [{
-                    "description": "The window icon imagedata, or nil of no icon has been set with love.window.setIcon.",
-                    "name": "imagedata",
-                    "type": "ImageData"
-                }]
-            }]
-        }, {
-            "description": "Returns the current display mode.",
-            "name": "getMode",
-            "variants": [{
-                "returns": [{
-                    "description": "Window width.",
-                    "name": "width",
-                    "type": "number"
-                }, {
-                    "description": "Window height.",
-                    "name": "height",
-                    "type": "number"
-                }, {
-                    "description": "Table containing the window properties.",
-                    "name": "flags",
-                    "table": [{
-                        "description": "Fullscreen (true), or windowed (false).",
-                        "name": "fullscreen",
-                        "type": "boolean"
-                    }, {
-                        "description": "The type of fullscreen mode used.",
-                        "name": "fullscreentype",
-                        "type": "FullscreenType"
-                    }, {
-                        "description": "True if the graphics framerate is synchronized with the monitor's refresh rate, false otherwise.",
-                        "name": "vsync",
-                        "type": "boolean"
-                    }, {
-                        "description": "The number of antialiasing samples used (0 if MSAA is disabled).",
-                        "name": "msaa",
-                        "type": "number"
-                    }, {
-                        "description": "True if the window is resizable in windowed mode, false otherwise.",
-                        "name": "resizable",
-                        "type": "boolean"
-                    }, {
-                        "description": "True if the window is borderless in windowed mode, false otherwise.",
-                        "name": "borderless",
-                        "type": "boolean"
-                    }, {
-                        "description": "True if the window is centered in windowed mode, false otherwise.",
-                        "name": "centered",
-                        "type": "boolean"
-                    }, {
-                        "description": "The index of the display the window is currently in, if multiple monitors are available.",
-                        "name": "display",
-                        "type": "number"
-                    }, {
-                        "description": "The minimum width of the window, if it's resizable.",
-                        "name": "minwidth",
-                        "type": "number"
-                    }, {
-                        "description": "The minimum height of the window, if it's resizable.",
-                        "name": "minheight",
-                        "type": "number"
-                    }, {
-                        "description": "True if high-dpi mode should be used on Retina displays in OS X and iOS. Does nothing on non-Retina displays. Added in 0.9.1.",
-                        "name": "highdpi",
-                        "type": "boolean"
-                    }, {
-                        "description": "The refresh rate of the screen's current display mode, in Hz. May be 0 if the value can't be determined.",
-                        "name": "refreshrate",
-                        "type": "number"
-                    }, {
-                        "description": "The x-coordinate of the window's position in its current display.",
-                        "name": "x",
-                        "type": "number"
-                    }, {
-                        "description": "The y-coordinate of the window's position in its current display.",
-                        "name": "y",
-                        "type": "number"
-                    }],
-                    "type": "table"
-                }]
-            }]
-        }, {
-            "description": "Gets the DPI scale factor associated with the window.\n\nThe pixel density inside the window might be greater (or smaller) than the \"size\" of the window. For example on a retina screen in Mac OS X with the highdpi window flag enabled, the window may take up the same physical size as an 800x600 window, but the area inside the window uses 1600x1200 pixels. love.window.getPixelScale() would return 2.0 in that case.\n\nThe love.window.fromPixels and love.window.toPixels functions can also be used to convert between units.\n\nThe highdpi window flag must be enabled to use the full pixel density of a Retina screen on Mac OS X and iOS. The flag currently does nothing on Windows and Linux, and on Android it is effectively always enabled.",
-            "name": "getPixelScale",
-            "variants": [{
-                "returns": [{
-                    "description": "The pixel scale factor associated with the window.",
-                    "name": "scale",
-                    "type": "number"
-                }]
-            }]
-        }, {
-            "description": "Gets the position of the window on the screen.\n\nThe window position is in the coordinate space of the display it is currently in.",
-            "name": "getPosition",
-            "variants": [{
-                "returns": [{
-                    "description": "The x-coordinate of the window's position.",
-                    "name": "x",
-                    "type": "number"
-                }, {
-                    "description": "The y-coordinate of the window's position.",
-                    "name": "y",
-                    "type": "number"
-                }, {
-                    "description": "The index of the display that the window is in.",
-                    "name": "display",
-                    "type": "number"
-                }]
-            }]
-        }, {
-            "description": "Gets the window title.",
-            "name": "getTitle",
-            "variants": [{
-                "returns": [{
-                    "description": "The current window title.",
-                    "name": "title",
-                    "type": "string"
-                }]
-            }]
-        }, {
-            "description": "Checks if the game window has keyboard focus.",
-            "name": "hasFocus",
-            "variants": [{
-                "returns": [{
-                    "description": "True if the window has the focus or false if not.",
-                    "name": "focus",
-                    "type": "boolean"
-                }]
-            }]
-        }, {
-            "description": "Checks if the game window has mouse focus.",
-            "name": "hasMouseFocus",
-            "variants": [{
-                "returns": [{
-                    "description": "True if the window has mouse focus or false if not.",
-                    "name": "focus",
-                    "type": "boolean"
-                }]
-            }]
-        }, {
-            "description": "Gets whether the display is allowed to sleep while the program is running.\n\nDisplay sleep is disabled by default. Some types of input (e.g. joystick button presses) might not prevent the display from sleeping, if display sleep is allowed.",
-            "name": "isDisplaySleepEnabled",
-            "variants": [{
-                "returns": [{
-                    "description": "True if system display sleep is enabled / allowed, false otherwise.",
-                    "name": "enabled",
-                    "type": "boolean"
-                }]
-            }]
-        }, {
-            "description": "Gets whether the Window is currently maximized.\n\nThe window can be maximized if it is not fullscreen and is resizable, and either the user has pressed the window's Maximize button or love.window.maximize has been called.",
-            "name": "isMaximized",
-            "variants": [{
-                "returns": [{
-                    "description": "True if the window is currently maximized in windowed mode, false otherwise.",
-                    "name": "maximized",
-                    "type": "boolean"
-                }]
-            }]
-        }, {
             "description": "Checks if the window is open.",
             "name": "isOpen",
             "variants": [{
@@ -16656,296 +13403,13 @@ export let api = {
                 }]
             }]
         }, {
-            "description": "Checks if the game window is visible.\n\nThe window is considered visible if it's not minimized and the program isn't hidden.",
-            "name": "isVisible",
-            "variants": [{
-                "returns": [{
-                    "description": "True if the window is visible or false if not.",
-                    "name": "visible",
-                    "type": "boolean"
-                }]
-            }]
-        }, {
-            "description": "Makes the window as large as possible.\n\nThis function has no effect if the window isn't resizable, since it essentially programmatically presses the window's \"maximize\" button.",
-            "name": "maximize",
-            "variants": [[]]
-        }, {
-            "description": "Minimizes the window to the system's task bar / dock.",
-            "name": "minimize",
-            "variants": [[]]
-        }, {
-            "description": "Causes the window to request the attention of the user if it is not in the foreground.\n\nIn Windows the taskbar icon will flash, and in OS X the dock icon will bounce.",
-            "name": "requestAttention",
-            "variants": [{
-                "arguments": [{
-                    "default": "false",
-                    "description": "Whether to continuously request attention until the window becomes active, or to do it only once.",
-                    "name": "continuous",
-                    "type": "boolean"
-                }]
-            }]
-        }, {
-            "description": "Sets whether the display is allowed to sleep while the program is running.\n\nDisplay sleep is disabled by default. Some types of input (e.g. joystick button presses) might not prevent the display from sleeping, if display sleep is allowed.",
-            "name": "setDisplaySleepEnabled",
-            "variants": [{
-                "arguments": [{
-                    "description": "True to enable system display sleep, false to disable it.",
-                    "name": "enable",
-                    "type": "boolean"
-                }]
-            }]
-        }, {
-            "description": "Enters or exits fullscreen. The display to use when entering fullscreen is chosen based on which display the window is currently in, if multiple monitors are connected.\n\nIf fullscreen mode is entered and the window size doesn't match one of the monitor's display modes (in normal fullscreen mode) or the window size doesn't match the desktop size (in 'desktop' fullscreen mode), the window will be resized appropriately. The window will revert back to its original size again when fullscreen mode is exited using this function.",
-            "name": "setFullscreen",
-            "variants": [{
-                "arguments": [{
-                    "description": "Whether to enter or exit fullscreen mode.",
-                    "name": "fullscreen",
-                    "type": "boolean"
-                }],
-                "returns": [{
-                    "description": "True if successful, false otherwise.",
-                    "name": "success",
-                    "type": "boolean"
-                }]
-            }, {
-                "arguments": [{
-                    "description": "Whether to enter or exit fullscreen mode.",
-                    "name": "fullscreen",
-                    "type": "boolean"
-                }, {
-                    "description": "The type of fullscreen mode to use.",
-                    "name": "fstype",
-                    "type": "FullscreenType"
-                }],
-                "returns": [{
-                    "description": "True if successful, false otherwise.",
-                    "name": "success",
-                    "type": "boolean"
-                }]
-            }]
-        }, {
-            "description": "Sets the window icon until the game is quit. Not all operating systems support very large icon images.",
-            "name": "setIcon",
-            "variants": [{
-                "arguments": [{
-                    "description": "The window icon image.",
-                    "name": "imagedata",
-                    "type": "ImageData"
-                }],
-                "returns": [{
-                    "description": "Whether the icon has been set successfully.",
-                    "name": "success",
-                    "type": "boolean"
-                }]
-            }]
-        }, {
-            "description": "Sets the display mode and properties of the window.\n\nIf width or height is 0, setMode will use the width and height of the desktop.\n\nChanging the display mode may have side effects: for example, canvases will be cleared and values sent to shaders with Shader:send will be erased. Make sure to save the contents of canvases beforehand or re-draw to them afterward if you need to.",
+            "description": "Sets the display mode and properties of the window.\n\nStubbed function, always successful",
             "name": "setMode",
             "variants": [{
-                "arguments": [{
-                    "description": "Display width.",
-                    "name": "width",
-                    "type": "number"
-                }, {
-                    "description": "Display height.",
-                    "name": "height",
-                    "type": "number"
-                }, {
-                    "description": "The flags table with the options:",
-                    "name": "flags",
-                    "table": [{
-                        "default": "false",
-                        "description": "Fullscreen (true), or windowed (false).",
-                        "name": "fullscreen",
-                        "type": "boolean"
-                    }, {
-                        "default": "\"desktop\"",
-                        "description": "The type of fullscreen to use. This defaults to \"normal\" in 0.9.2 and older.",
-                        "name": "fullscreentype",
-                        "type": "FullscreenType"
-                    }, {
-                        "default": "true",
-                        "description": "True if LÖVE should wait for vsync, false otherwise.",
-                        "name": "vsync",
-                        "type": "boolean"
-                    }, {
-                        "default": "0",
-                        "description": "The number of antialiasing samples.",
-                        "name": "msaa",
-                        "type": "number"
-                    }, {
-                        "default": "false",
-                        "description": "True if the window should be resizable in windowed mode, false otherwise.",
-                        "name": "resizable",
-                        "type": "boolean"
-                    }, {
-                        "default": "false",
-                        "description": "True if the window should be borderless in windowed mode, false otherwise.",
-                        "name": "borderless",
-                        "type": "boolean"
-                    }, {
-                        "default": "true",
-                        "description": "True if the window should be centered in windowed mode, false otherwise.",
-                        "name": "centered",
-                        "type": "boolean"
-                    }, {
-                        "default": "1",
-                        "description": "The index of the display to show the window in, if multiple monitors are available.",
-                        "name": "display",
-                        "type": "number"
-                    }, {
-                        "default": "1",
-                        "description": "The minimum width of the window, if it's resizable. Cannot be less than 1.",
-                        "name": "minwidth",
-                        "type": "number"
-                    }, {
-                        "default": "1",
-                        "description": "The minimum height of the window, if it's resizable. Cannot be less than 1.",
-                        "name": "minheight",
-                        "type": "number"
-                    }, {
-                        "default": "false",
-                        "description": "True if high-dpi mode should be used on Retina displays in OS X. Does nothing on non-Retina displays.",
-                        "name": "highdpi",
-                        "type": "boolean"
-                    }, {
-                        "default": "nil",
-                        "description": "The x-coordinate of the window's position in the specified display.",
-                        "name": "x",
-                        "type": "number"
-                    }, {
-                        "default": "nil",
-                        "description": "The y-coordinate of the window's position in the specified display.",
-                        "name": "y",
-                        "type": "number"
-                    }],
-                    "type": "table"
-                }],
                 "returns": [{
-                    "description": "True if successful, false otherwise.",
+                    "description": "Always true.",
                     "name": "success",
                     "type": "boolean"
-                }]
-            }]
-        }, {
-            "description": "Sets the position of the window on the screen.\n\nThe window position is in the coordinate space of the specified display.",
-            "name": "setPosition",
-            "variants": [{
-                "arguments": [{
-                    "description": "The x-coordinate of the window's position.",
-                    "name": "x",
-                    "type": "number"
-                }, {
-                    "description": "The y-coordinate of the window's position.",
-                    "name": "y",
-                    "type": "number"
-                }, {
-                    "description": "The index of the display that the new window position is relative to.",
-                    "name": "display",
-                    "type": "number"
-                }]
-            }]
-        }, {
-            "description": "Sets the window title.",
-            "name": "setTitle",
-            "variants": [{
-                "arguments": [{
-                    "description": "The new window title.",
-                    "name": "title",
-                    "type": "string"
-                }]
-            }]
-        }, {
-            "description": "Displays a message box dialog above the love window. The message box contains a title, optional text, and buttons.",
-            "name": "showMessageBox",
-            "variants": [{
-                "arguments": [{
-                    "description": "The title of the message box.",
-                    "name": "title",
-                    "type": "string"
-                }, {
-                    "description": "The text inside the message box.",
-                    "name": "message",
-                    "type": "string"
-                }, {
-                    "default": "\"info\"",
-                    "description": "The type of the message box.",
-                    "name": "type",
-                    "type": "MessageBoxType"
-                }, {
-                    "default": "true",
-                    "description": "Whether the message box should be attached to the love window or free-floating.",
-                    "name": "attachtowindow",
-                    "type": "boolean"
-                }],
-                "returns": [{
-                    "description": "Whether the message box was successfully displayed.",
-                    "name": "success",
-                    "type": "boolean"
-                }]
-            }, {
-                "arguments": [{
-                    "description": "The title of the message box.",
-                    "name": "title",
-                    "type": "string"
-                }, {
-                    "description": "The text inside the message box.",
-                    "name": "message",
-                    "type": "string"
-                }, {
-                    "description": "A table containing a list of button names to show. The table can also contain the fields enterbutton and escapebutton, which should be the index of the default button to use when the user presses 'enter' or 'escape', respectively.",
-                    "name": "buttonlist",
-                    "type": "table"
-                }, {
-                    "default": "\"info\"",
-                    "description": "The type of the message box.",
-                    "name": "type",
-                    "type": "MessageBoxType"
-                }, {
-                    "default": "true",
-                    "description": "Whether the message box should be attached to the love window or free-floating.",
-                    "name": "attachtowindow",
-                    "type": "boolean"
-                }],
-                "returns": [{
-                    "description": "The index of the button pressed by the user. May be 0 if the message box dialog was closed without pressing a button.",
-                    "name": "pressedbutton",
-                    "type": "number"
-                }]
-            }]
-        }, {
-            "description": "Converts a number from density-independent units to pixels.\n\nThe pixel density inside the window might be greater (or smaller) than the \"size\" of the window. For example on a retina screen in Mac OS X with the highdpi window flag enabled, the window may take up the same physical size as an 800x600 window, but the area inside the window uses 1600x1200 pixels. love.window.toPixels(800) would return 1600 in that case.\n\nThis is used to convert coordinates from the size users are expecting them to display at onscreen to pixels. love.window.fromPixels does the opposite. The highdpi window flag must be enabled to use the full pixel density of a Retina screen on Mac OS X and iOS. The flag currently does nothing on Windows and Linux, and on Android it is effectively always enabled.\n\nMost LÖVE functions return values and expect arguments in terms of pixels rather than density-independent units.",
-            "name": "toPixels",
-            "variants": [{
-                "arguments": [{
-                    "description": "A number in density-independent units to convert to pixels.",
-                    "name": "value",
-                    "type": "number"
-                }],
-                "returns": [{
-                    "description": "The converted number, in pixels.",
-                    "name": "pixelvalue",
-                    "type": "number"
-                }]
-            }, {
-                "arguments": [{
-                    "description": "The x-axis value of a coordinate in density-independent units to convert to pixels.",
-                    "name": "x",
-                    "type": "number"
-                }, {
-                    "description": "The y-axis value of a coordinate in density-independent units to convert to pixels.",
-                    "name": "y",
-                    "type": "number"
-                }],
-                "returns": [{
-                    "description": "The converted x-axis value of the coordinate, in pixels.",
-                    "name": "px",
-                    "type": "number"
-                }, {
-                    "description": "The converted y-axis value of the coordinate, in pixels.",
-                    "name": "py",
-                    "type": "number"
                 }]
             }]
         }],
@@ -17023,5 +13487,38 @@ export let api = {
         "name": "Object",
         "subtypes": ["BezierCurve", "Body", "Canvas", "ChainShape", "Channel", "CircleShape", "CompressedData", "CompressedImageData", "Contact", "Cursor", "Data", "Decoder", "DistanceJoint", "Drawable", "EdgeShape", "File", "FileData", "Fixture", "Font", "FontData", "Framebuffer", "FrictionJoint", "GearJoint", "GlyphData", "Image", "ImageData", "Joint", "Joystick", "Mesh", "MotorJoint", "MouseJoint", "ParticleSystem", "PixelEffect", "PolygonShape", "PrismaticJoint", "PulleyJoint", "Quad", "Quad", "RandomGenerator", "Rasterizer", "RevoluteJoint", "RopeJoint", "Shader", "Shape", "SoundData", "Source", "SpriteBatch", "Text", "Texture", "Thread", "Video", "VideoStream", "WeldJoint", "WheelJoint", "World"]
     }],
-    "version": "0.10.2"
+    "constants" : [{
+        "description": "Returns the OS this is running, \"Horizon\".",
+        "name": "_os",
+        "type": "string"
+    }, {
+        "description": "Returns the version of LÖVE the app is compatible against",
+        "name": "_version",
+        "type": "string"
+    }, {
+        "description": "Returns the version of LÖVE Potion",
+        "name": "_potion_version",
+        "type": "string"
+    }, {
+        "description": "Returns the console the app is running on, \"3DS\" or \"Switch\"",
+        "name": "_console_name",
+        "type": "string"
+    }, {
+        "description": "Returns the major version of LÖVE the app is compatible against",
+        "name": "_version_major",
+        "type": "string"
+    }, {
+        "description": "Returns the minor version of LÖVE the app is compatible against",
+        "name": "_version_minor",
+        "type": "string"
+    }, {
+        "description": "Returns the revision version of LÖVE the app is compatible against",
+        "name": "_version_revision",
+        "type": "string"
+    }, {
+        "description": "Returns the codename of LÖVE the app is compatible against",
+        "name": "_version_codename",
+        "type": "string"
+    }],
+    "version": "11.4"
 }

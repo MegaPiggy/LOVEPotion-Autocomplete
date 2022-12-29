@@ -51,6 +51,7 @@ function getProperData(lookingForKey: string, line: string): vscode.CompletionIt
 
     // Check if we're looking for top level API info
     if (lookingForKey == "love") {
+        r = r.concat(getConstantCompletionItems(api.constants));
         r = r.concat(getModuleCompletionItems(api.modules));
         r = r.concat(getFunctionCompletionItems(api.functions));
         r = r.concat(getTypeCompletionItems(api.types));
@@ -208,6 +209,21 @@ function getEnumConstantCompletionTypes(enums: any): vscode.CompletionItem[] {
         let newItem = new vscode.CompletionItem(enums.constants[i].name, vscode.CompletionItemKind.Enum);
         newItem.detail = "(const) " + EXT_TAG;
         newItem.documentation = enums.constants[i].description;
+
+        items.push(newItem);
+    }
+
+    return items;
+}
+
+// This function parses out an array of constants and returns an array of CompletionItems
+function getConstantCompletionItems(constants: any): vscode.CompletionItem[] {
+    let items: vscode.CompletionItem[] = [];
+
+    for (let i = 0; i < constants.length; i++) {
+        let newItem = new vscode.CompletionItem(constants[i].name, vscode.CompletionItemKind.Field);
+        newItem.detail = "(const) " + EXT_TAG;
+        newItem.documentation = constants[i].description;
 
         items.push(newItem);
     }
